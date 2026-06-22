@@ -2,9 +2,7 @@
 
 ## Tirocinanti
 - Samuele Marenco (4^B art. informatica)
-- Kevin Rodriguez Lino
-- Danilo Manuel Platania
-- Patrick Galati (4^D art. informatica)
+- Kevin Rodriguez Lino,Danilo Manuel Platania,Patrick Galati (4^D art. informatica)
 
 ## Realizzazione applicativo per la gestione di una To-Do List
 
