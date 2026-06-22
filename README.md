@@ -1,0 +1,2 @@
+# ToDoList
+Progetto tirocinio FINSOFT
