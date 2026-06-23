@@ -1,75 +1,47 @@
 <?php
+header('Content-Type: application/json');
+require_once '../../db.php';
 
-$conn = new mysqli("localhost", "root", "", "todo");
+$data = json_decode(file_get_contents('php://input'), true);
 
-//controllo la connessione
-if ($conn->connect_error)
-{
-    die("Errore di connessione: " . $conn->connect_error);
+$username = trim($data['username'] ?? '');
+$password = $data['password'] ?? '';
+
+//verifico la validità dei campi
+if (!$username || !$password) {
+    http_response_code(400);
+    echo json_encode(['errore' => 'Compilare tutti i campi obbligatori']);
+    exit;
 }
 
-//controllo i dati inseriti
-if (!isset($_POST["username"]) || !isset($_POST["password"]))
-{
-    die("Dati mancanti.");
+//controllo che l'username sia abbastanza lungo
+if (strlen($username) < 3) {
+    http_response_code(400);
+    echo json_encode(['errore' => 'Il nome utente deve essere lungo almeno 3 caratteri']);
+    exit;
 }
 
-$username = trim($_POST["username"]);
-$password = $_POST["password"];
-
-//controllo i campi per evitare che siano vuoti
-if ($username == "" || $password == "")
-{
-    die("Compila tutti i campi.");
+//controllo che la password sia abbastanza lunga
+if (strlen($password) < 6) {
+    http_response_code(400);
+    echo json_encode(['errore' => 'La password deve essere lunga almeno 6 caratteri']);
+    exit;
 }
 
-//verifico se l'username esiste già
-$sqlCheck = "SELECT id FROM utenti WHERE username = ?";
-$stmtCheck = $conn->prepare($sqlCheck);
-
-if (!$stmtCheck)
-{
-    die("Errore nella query di controllo.");
+//controllo se l'username esista già
+$stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
+$stmt->execute([$username]);
+if ($stmt->fetch()) {
+    http_response_code(409);
+    echo json_encode(['errore' => 'Nome utente già esistente']);
+    exit;
 }
 
-$stmtCheck->bind_param("s", $username);
-$stmtCheck->execute();
+//hash della password e inserimento
+$hash = password_hash($password, PASSWORD_DEFAULT);
+$stmt = $pdo->prepare('INSERT INTO users (username, password_hash) VALUES (?, ?)');
+$stmt->execute([$username, $hash]);
 
-$result = $stmtCheck->get_result();
-
-if ($result->num_rows > 0)
-{
-    die("Username già esistente.");
-}
-
-$stmtCheck->close();
-
-//hash della password
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
-
-//inserimento nuovo utente
-$sqlInsert = "INSERT INTO utenti(username, password_hash)
-              VALUES (?, ?)";
-
-$stmtInsert = $conn->prepare($sqlInsert);
-
-if (!$stmtInsert)
-{
-    die("Errore nella query di inserimento.");
-}
-
-$stmtInsert->bind_param("ss", $username, $passwordHash);
-
-if ($stmtInsert->execute())
-{
-    echo "Registrazione completata con successo!";
-}
-else
-{
-    echo "Errore durante la registrazione.";
-}
-
-$stmtInsert->close();
-$conn->close();
-
+http_response_code(201);
+echo json_encode(['messaggio' => 'Utente registrato con successo']);
 ?>
