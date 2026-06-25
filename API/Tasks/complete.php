@@ -5,7 +5,7 @@ require_once '../../db.php';
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401);
-    echo json_encode(['errore' => 'Non autenticato, procedere con l'autenticazione']);
+    echo json_encode(['errore' => 'Non autenticato, procedere con la autenticazione']);
     exit;
 }
 
