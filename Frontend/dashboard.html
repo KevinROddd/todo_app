@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List — Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Le mie Task</h1>
+            <div>
+                <span id="nome-utente"></span>
+                <button onclick="logout()" class="btn-secondary">Esci</button>
+            </div>
+        </div>
+
+        <!-- AGGIUNGI TASK -->
+        <div class="card">
+            <h2>Nuova Task</h2>
+            <input type="text" id="task-titolo" placeholder="Titolo">
+            <textarea id="task-descrizione" placeholder="Descrizione (opzionale)"></textarea>
+            <div class="riga">
+                <select id="task-priorita">
+                    <option value="bassa">Bassa</option>
+                    <option value="media" selected>Media</option>
+                    <option value="alta">Alta</option>
+                </select>
+                <input type="date" id="task-scadenza">
+                <select id="task-categoria">
+                    <option value="">Nessuna categoria</option>
+                </select>
+            </div>
+            <button onclick="creaTask()">Aggiungi Task</button>
+            <p id="task-errore" class="errore"></p>
+        </div>
+
+        <!-- AZIONI IN BLOCCO -->
+        <div class="card">
+            <div class="riga">
+                <input type="checkbox" id="seleziona-tutto" onchange="selezionaTutto()">
+                <label for="seleziona-tutto">Seleziona tutto</label>
+                <button onclick="completaSelezionate()" class="btn-secondary">Completa selezionate</button>
+                <button onclick="eliminaSelezionate()" class="btn-danger">Elimina selezionate</button>
+            </div>
+        </div>
+
+        <!-- LISTA TASK -->
+        <div id="lista-tasks"></div>
+
+        <!-- TASK CONDIVISE CON ME -->
+        <div class="card">
+            <h2>Condivise con me</h2>
+            <div id="lista-condivise"></div>
+        </div>
+
+        <!-- CATEGORIE -->
+        <div class="card">
+            <h2>Categorie</h2>
+            <div class="riga">
+                <input type="text" id="cat-nome" placeholder="Nome categoria">
+                <input type="color" id="cat-colore" value="#000000">
+                <button onclick="creaCategoria()">Aggiungi</button>
+            </div>
+            <div id="lista-categorie"></div>
+        </div>
+
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

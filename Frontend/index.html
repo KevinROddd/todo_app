@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List — Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+
+        <!-- LOGIN -->
+        <div id="form-login" class="card">
+            <h2>Accedi</h2>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Accedi</button>
+            <p>Non hai un account? <a href="#" onclick="mostraRegistrazione()">Registrati</a></p>
+            <p id="login-errore" class="errore"></p>
+        </div>
+
+        <!-- REGISTRAZIONE -->
+        <div id="form-registrazione" class="card nascosto">
+            <h2>Registrati</h2>
+            <input type="text" id="reg-nome" placeholder="Nome">
+            <input type="email" id="reg-email" placeholder="Email">
+            <input type="password" id="reg-password" placeholder="Password (min 6 caratteri)">
+            <button onclick="registrati()">Registrati</button>
+            <p>Hai già un account? <a href="#" onclick="mostraLogin()">Accedi</a></p>
+            <p id="reg-errore" class="errore"></p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
