@@ -4,43 +4,39 @@ require_once '../../db.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$username = trim($data['username'] ?? '');
+$nome = trim($data['nome'] ?? '');
+$email = trim($data['email'] ?? '');
 $password = $data['password'] ?? '';
 
-//verifico la validità dei campi
-if (!$username || !$password) {
+if (!$nome || !$email || !$password) {
     http_response_code(400);
-    echo json_encode(['errore' => 'Compilare tutti i campi obbligatori']);
+    echo json_encode(['errore' => 'Tutti i campi sono obbligatori']);
     exit;
 }
 
-//controllo che l'username sia abbastanza lungo
-if (strlen($username) < 3) {
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
-    echo json_encode(['errore' => 'Il nome utente deve essere lungo almeno 3 caratteri']);
+    echo json_encode(['errore' => 'Email non valida']);
     exit;
 }
 
-//controllo che la password sia abbastanza lunga
 if (strlen($password) < 6) {
     http_response_code(400);
-    echo json_encode(['errore' => 'La password deve essere lunga almeno 6 caratteri']);
+    echo json_encode(['errore' => 'La password deve essere di almeno 6 caratteri']);
     exit;
 }
 
-//controllo se l'username esista già
-$stmt = $pdo->prepare('SELECT id FROM users WHERE nome = ?');
-$stmt->execute([$nome]);
+$stmt = $pdo->prepare('SELECT id FROM users WHERE email = ?');
+$stmt->execute([$email]);
 if ($stmt->fetch()) {
     http_response_code(409);
-    echo json_encode(['errore' => 'Nome utente già esistente']);
+    echo json_encode(['errore' => 'Email già registrata']);
     exit;
 }
 
-//hash della password e inserimento
 $hash = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $pdo->prepare('INSERT INTO users (nome, password_hash) VALUES (?, ?)');
-$stmt->execute([$nome, $hash]);
+$stmt = $pdo->prepare('INSERT INTO users (nome, email, password_hash) VALUES (?, ?, ?)');
+$stmt->execute([$nome, $email, $hash]);
 
 http_response_code(201);
 echo json_encode(['messaggio' => 'Utente registrato con successo']);
