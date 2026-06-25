@@ -29,8 +29,8 @@ if (strlen($password) < 6) {
 }
 
 //controllo se l'username esista già
-$stmt = $pdo->prepare('SELECT id FROM users WHERE username = ?');
-$stmt->execute([$username]);
+$stmt = $pdo->prepare('SELECT id FROM users WHERE nome = ?');
+$stmt->execute([$nome]);
 if ($stmt->fetch()) {
     http_response_code(409);
     echo json_encode(['errore' => 'Nome utente già esistente']);
@@ -39,8 +39,8 @@ if ($stmt->fetch()) {
 
 //hash della password e inserimento
 $hash = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $pdo->prepare('INSERT INTO users (username, password_hash) VALUES (?, ?)');
-$stmt->execute([$username, $hash]);
+$stmt = $pdo->prepare('INSERT INTO users (nome, password_hash) VALUES (?, ?)');
+$stmt->execute([$nome, $hash]);
 
 http_response_code(201);
 echo json_encode(['messaggio' => 'Utente registrato con successo']);
