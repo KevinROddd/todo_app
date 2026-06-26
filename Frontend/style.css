@@ -132,7 +132,7 @@ h2 { font-size: 1.2rem; font-weight: 600; }
     margin-bottom: 8px;
 }
 
-.page-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.04em; color: var(--text); }
+.page-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.04em; color: var(--text); }
 
 /* ─── PANELS ─── */
 .panel {
