@@ -10,6 +10,47 @@
 </head>
 <body class="dashboard-page">
 
+    <!-- MODALE MODIFICA -->
+    <div id="modale-modifica" class="modale-overlay nascosto">
+        <div class="modale-card">
+            <div class="panel-label">MODIFICA TASK</div>
+            <div class="field-group">
+                <label class="field-label">TITOLO</label>
+                <input type="text" id="mod-titolo" class="field-input">
+            </div>
+            <div class="field-group">
+                <label class="field-label">DESCRIZIONE</label>
+                <textarea id="mod-descrizione" class="field-input field-textarea"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="field-group-inline">
+                    <label class="field-label">PRIORITÀ</label>
+                    <select id="mod-priorita" class="field-select">
+                        <option value="bassa">Bassa</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <div class="field-group-inline">
+                    <label class="field-label">SCADENZA</label>
+                    <input type="date" id="mod-scadenza" class="field-input field-date">
+                </div>
+                <div class="field-group-inline">
+                    <label class="field-label">CATEGORIA</label>
+                    <select id="mod-categoria" class="field-select"></select>
+                </div>
+            </div>
+            <input type="hidden" id="mod-id">
+            <!-- Sezione condivisione (nascosta per ora) -->
+            <input type="hidden" id="mod-share-email">
+            <span id="share-msg"></span>
+            <div class="form-row" style="justify-content: flex-end; margin-top: 8px;">
+                <button class="btn-ghost" onclick="chiudiModale()">Annulla</button>
+                <button class="btn-primary" onclick="salvaModifica()">Salva</button>
+            </div>
+        </div>
+    </div>
+
     <!-- TOPBAR -->
     <header class="topbar">
         <div class="topbar-inner">
@@ -23,44 +64,6 @@
             </div>
         </div>
     </header>
-
-<!-- MODALE MODIFICA -->
-<div id="modale-modifica" class="modale-overlay nascosto">
-    <div class="modale-card">
-        <div class="panel-label">MODIFICA TASK</div>
-        <div class="field-group">
-            <label class="field-label">TITOLO</label>
-            <input type="text" id="mod-titolo" class="field-input">
-        </div>
-        <div class="field-group">
-            <label class="field-label">DESCRIZIONE</label>
-            <textarea id="mod-descrizione" class="field-input field-textarea"></textarea>
-        </div>
-        <div class="form-row">
-            <div class="field-group-inline">
-                <label class="field-label">PRIORITÀ</label>
-                <select id="mod-priorita" class="field-select">
-                    <option value="bassa">Bassa</option>
-                    <option value="media">Media</option>
-                    <option value="alta">Alta</option>
-                </select>
-            </div>
-            <div class="field-group-inline">
-                <label class="field-label">SCADENZA</label>
-                <input type="date" id="mod-scadenza" class="field-input field-date">
-            </div>
-            <div class="field-group-inline">
-                <label class="field-label">CATEGORIA</label>
-                <select id="mod-categoria" class="field-select"></select>
-            </div>
-        </div>
-        <input type="hidden" id="mod-id">
-        <div class="form-row" style="justify-content: flex-end; margin-top: 8px;">
-            <button class="btn-ghost" onclick="chiudiModale()">Annulla</button>
-            <button class="btn-primary" onclick="salvaModifica()">Salva</button>
-        </div>
-    </div>
-</div>
 
     <main class="dashboard-main">
 
@@ -131,7 +134,6 @@
             <div class="bulk-actions">
                 <button class="btn-outline" onclick="completaSelezionate()">✓ Completa selezionate</button>
                 <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
-                <button class="btn-outline" onclick="condividiSelezionate()">🔗 Condividi selezionate</button>
             </div>
         </section>
 
