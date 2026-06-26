@@ -8,6 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+<body class="dashboard-page">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="topbar-brand">
+                <span class="brand-mark">◈</span>
+                <span class="brand-name">TASK</span>
+            </div>
+            <div class="topbar-user">
+                <span class="mono-small" id="nome-utente"></span>
+                <button class="btn-ghost" onclick="logout()">Esci</button>
+            </div>
+        </div>
+    </header>
+
 <!-- MODALE MODIFICA -->
 <div id="modale-modifica" class="modale-overlay nascosto">
     <div class="modale-card">
@@ -45,21 +61,6 @@
         </div>
     </div>
 </div>
-<body class="dashboard-page">
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-        <div class="topbar-inner">
-            <div class="topbar-brand">
-                <span class="brand-mark">◈</span>
-                <span class="brand-name">TASK</span>
-            </div>
-            <div class="topbar-user">
-                <span class="mono-small" id="nome-utente"></span>
-                <button class="btn-ghost" onclick="logout()">Esci</button>
-            </div>
-        </div>
-    </header>
 
     <main class="dashboard-main">
 
@@ -130,6 +131,7 @@
             <div class="bulk-actions">
                 <button class="btn-outline" onclick="completaSelezionate()">✓ Completa selezionate</button>
                 <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
+                <button class="btn-outline" onclick="condividiSelezionate()">🔗 Condividi selezionate</button>
             </div>
         </section>
 

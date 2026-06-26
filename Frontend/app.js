@@ -272,6 +272,33 @@ async function completaSelezionate() {
     caricaTasks();
 }
 
+async function condividiSelezionate() {
+    const ids = getIdSelezionati();
+    if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
+    if (!confirm(`Condividere ${ids.length} task?`)) return;
+    const email = prompt('Inserisci l\'email dell\'utente con cui condividere:');
+    if (!email) return;
+    await fetch(`${API}/shared/share_multiple.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+    });
+    caricaTasks();
+}
+
+/*async function condividiSelezionate() {
+    const ids = getIdSelezionati();
+    if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
+    const email = prompt('Inserisci l\'email dell\'utente con cui condividere:');
+    if (!email) return;
+    await fetch(`${API}/shared/share_multiple.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids, email })
+    });
+    caricaTasks();
+}*/
+
 // ── IMPORT LISTA ──────────────────────────────────
 
 async function importaLista() {
