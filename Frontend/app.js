@@ -53,7 +53,7 @@ async function logout() {
     window.location.href = 'index.html';
 }
 
-// ── INIT DASHBOARD ────────────────────────────────
+// ── INIT ──────────────────────────────────────────
 
 window.addEventListener('load', () => {
     if (document.getElementById('lista-tasks')) {
@@ -81,11 +81,17 @@ async function caricaTasks() {
         return;
     }
 
+    // Mappa categorie per nome
+    const selectCat = document.getElementById('task-categoria');
+    const catMap = {};
+    [...selectCat.options].forEach(o => { if (o.value) catMap[o.value] = o.textContent; });
+
     tasks.forEach(task => {
         const card = document.createElement('div');
         card.className = `task-card ${task.completato == 1 ? 'completato' : ''}`;
+        const catNome = task.category_id && catMap[task.category_id] ? catMap[task.category_id] : '';
         card.innerHTML = `
-            <label class="custom-check-wrap task-check-wrap">
+            <label class="custom-check-wrap">
                 <input type="checkbox" class="task-check" value="${task.id}">
                 <span class="custom-check"></span>
             </label>
@@ -95,12 +101,13 @@ async function caricaTasks() {
                 <div class="task-meta">
                     <span class="badge badge-${task.priorita}">${task.priorita}</span>
                     ${task.scadenza ? `<span class="task-date">${formatData(task.scadenza)}</span>` : ''}
+                    ${catNome ? `<span class="task-cat">▸ ${catNome}</span>` : ''}
                     ${task.descrizione ? `<span class="task-date">${task.descrizione}</span>` : ''}
                 </div>
             </div>
             <div class="task-actions">
                 <button class="btn-icon" onclick='apriModale(${JSON.stringify(task)})' title="Modifica">✎</button>
-                 <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
+                <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
             </div>
         `;
         lista.appendChild(card);
@@ -114,11 +121,17 @@ function formatData(data) {
 }
 
 async function creaTask() {
-    const titolo = document.getElementById('task-titolo').value;
+    const titolo = document.getElementById('task-titolo').value.trim();
     const descrizione = document.getElementById('task-descrizione').value;
     const priorita = document.getElementById('task-priorita').value;
     const scadenza = document.getElementById('task-scadenza').value;
     const category_id = document.getElementById('task-categoria').value || null;
+
+    if (!titolo) {
+        document.getElementById('task-errore').textContent = 'Il titolo è obbligatorio';
+        return;
+    }
+
     const res = await fetch(`${API}/tasks/create.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -128,6 +141,7 @@ async function creaTask() {
     if (res.ok) {
         document.getElementById('task-titolo').value = '';
         document.getElementById('task-descrizione').value = '';
+        document.getElementById('task-scadenza').value = '';
         document.getElementById('task-errore').textContent = '';
         caricaTasks();
     } else {
@@ -153,6 +167,76 @@ async function eliminaTask(id) {
     });
     caricaTasks();
 }
+
+// ── MODIFICA ──────────────────────────────────────
+
+function apriModale(task) {
+    document.getElementById('mod-id').value = task.id;
+    document.getElementById('mod-titolo').value = task.titolo;
+    document.getElementById('mod-descrizione').value = task.descrizione || '';
+    document.getElementById('mod-priorita').value = task.priorita;
+    document.getElementById('mod-scadenza').value = task.scadenza || '';
+    document.getElementById('mod-share-email').value = '';
+    document.getElementById('share-msg').textContent = '';
+
+    const src = document.getElementById('task-categoria');
+    const dst = document.getElementById('mod-categoria');
+    dst.innerHTML = src.innerHTML;
+    dst.value = task.category_id || '';
+
+    document.getElementById('modale-modifica').classList.remove('nascosto');
+}
+
+function chiudiModale() {
+    document.getElementById('modale-modifica').classList.add('nascosto');
+}
+
+async function salvaModifica() {
+    const id = document.getElementById('mod-id').value;
+    const titolo = document.getElementById('mod-titolo').value;
+    const descrizione = document.getElementById('mod-descrizione').value;
+    const priorita = document.getElementById('mod-priorita').value;
+    const scadenza = document.getElementById('mod-scadenza').value;
+    const category_id = document.getElementById('mod-categoria').value || null;
+
+    const res = await fetch(`${API}/tasks/update.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, titolo, descrizione, priorita, scadenza, category_id })
+    });
+    if (res.ok) {
+        chiudiModale();
+        caricaTasks();
+    }
+}
+
+async function condividiTask() {
+    const task_id = document.getElementById('mod-id').value;
+    const email = document.getElementById('mod-share-email').value.trim();
+    const msg = document.getElementById('share-msg');
+
+    if (!email) { msg.textContent = 'Inserisci un\'email'; msg.className = 'msg-error'; return; }
+
+    const res = await fetch(`${API}/shared/share.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task_id, email })
+    });
+    const data = await res.json();
+    if (res.ok) {
+        msg.textContent = '✓ Task condivisa con successo';
+        msg.className = 'msg-success';
+        document.getElementById('mod-share-email').value = '';
+    } else {
+        msg.textContent = data.errore;
+        msg.className = 'msg-error';
+    }
+}
+
+document.addEventListener('click', e => {
+    const modale = document.getElementById('modale-modifica');
+    if (modale && e.target === modale) chiudiModale();
+});
 
 // ── BULK ──────────────────────────────────────────
 
@@ -188,6 +272,34 @@ async function completaSelezionate() {
     caricaTasks();
 }
 
+// ── IMPORT LISTA ──────────────────────────────────
+
+async function importaLista() {
+    const testo = document.getElementById('import-testo').value;
+    const priorita = document.getElementById('import-priorita').value;
+    const risultato = document.getElementById('import-risultato');
+
+    const righe = testo.split('\n').map(r => r.trim()).filter(r => r.length > 0);
+
+    if (righe.length === 0) { risultato.textContent = 'Nessuna riga trovata.'; return; }
+
+    risultato.textContent = `Importando ${righe.length} task…`;
+
+    let ok = 0;
+    for (const titolo of righe) {
+        const res = await fetch(`${API}/tasks/create.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titolo, priorita, descrizione: '', scadenza: null, category_id: null })
+        });
+        if (res.ok) ok++;
+    }
+
+    document.getElementById('import-testo').value = '';
+    risultato.textContent = `✓ ${ok} task importate su ${righe.length}.`;
+    caricaTasks();
+}
+
 // ── CATEGORIE ─────────────────────────────────────
 
 async function caricaCategorie() {
@@ -216,11 +328,14 @@ async function caricaCategorie() {
         option.textContent = cat.nome;
         select.appendChild(option);
     });
+
+    caricaTasks();
 }
 
 async function creaCategoria() {
-    const nome = document.getElementById('cat-nome').value;
+    const nome = document.getElementById('cat-nome').value.trim();
     const colore = document.getElementById('cat-colore').value;
+    if (!nome) return;
     const res = await fetch(`${API}/categories/create.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -270,85 +385,4 @@ async function caricaCondivise() {
         `;
         lista.appendChild(card);
     });
-}
-// ── MODIFICA ──────────────────────────────────────
-
-function apriModale(task) {
-    document.getElementById('mod-id').value = task.id;
-    document.getElementById('mod-titolo').value = task.titolo;
-    document.getElementById('mod-descrizione').value = task.descrizione || '';
-    document.getElementById('mod-priorita').value = task.priorita;
-    document.getElementById('mod-scadenza').value = task.scadenza || '';
-    document.getElementById('mod-categoria').value = task.category_id || '';
-
-    // Copia le opzioni categorie nel select del modale
-    const src = document.getElementById('task-categoria');
-    const dst = document.getElementById('mod-categoria');
-    dst.innerHTML = src.innerHTML;
-    dst.value = task.category_id || '';
-
-    document.getElementById('modale-modifica').classList.remove('nascosto');
-}
-
-function chiudiModale() {
-    document.getElementById('modale-modifica').classList.add('nascosto');
-}
-
-async function salvaModifica() {
-    const id = document.getElementById('mod-id').value;
-    const titolo = document.getElementById('mod-titolo').value;
-    const descrizione = document.getElementById('mod-descrizione').value;
-    const priorita = document.getElementById('mod-priorita').value;
-    const scadenza = document.getElementById('mod-scadenza').value;
-    const category_id = document.getElementById('mod-categoria').value || null;
-
-    const res = await fetch(`${API}/tasks/update.php`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, titolo, descrizione, priorita, scadenza, category_id })
-    });
-
-    if (res.ok) {
-        chiudiModale();
-        caricaTasks();
-    }
-}
-
-// Chiudi modale cliccando fuori
-document.addEventListener('click', e => {
-    const modale = document.getElementById('modale-modifica');
-    if (modale && e.target === modale) chiudiModale();
-});
-// ── IMPORT LISTA ──────────────────────────────────
-
-async function importaLista() {
-    const testo = document.getElementById('import-testo').value;
-    const priorita = document.getElementById('import-priorita').value;
-    const risultato = document.getElementById('import-risultato');
-
-    const righe = testo
-        .split('\n')
-        .map(r => r.trim())
-        .filter(r => r.length > 0);
-
-    if (righe.length === 0) {
-        risultato.textContent = 'Nessuna riga trovata.';
-        return;
-    }
-
-    risultato.textContent = `Importando ${righe.length} task…`;
-
-    let ok = 0;
-    for (const titolo of righe) {
-        const res = await fetch(`${API}/tasks/create.php`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ titolo, priorita, descrizione: '', scadenza: null, category_id: null })
-        });
-        if (res.ok) ok++;
-    }
-
-    document.getElementById('import-testo').value = '';
-    risultato.textContent = `✓ ${ok} task importate su ${righe.length}.`;
-    caricaTasks();
 }
