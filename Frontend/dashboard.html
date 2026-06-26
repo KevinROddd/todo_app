@@ -8,46 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<!-- MODALE MODIFICA -->
-<div id="modale-modifica" class="modale-overlay nascosto">
-    <div class="modale-card">
-        <div class="panel-label">MODIFICA TASK</div>
-        <div class="field-group">
-            <label class="field-label">TITOLO</label>
-            <input type="text" id="mod-titolo" class="field-input">
-        </div>
-        <div class="field-group">
-            <label class="field-label">DESCRIZIONE</label>
-            <textarea id="mod-descrizione" class="field-input field-textarea"></textarea>
-        </div>
-        <div class="form-row">
-            <div class="field-group-inline">
-                <label class="field-label">PRIORITÀ</label>
-                <select id="mod-priorita" class="field-select">
-                    <option value="bassa">Bassa</option>
-                    <option value="media">Media</option>
-                    <option value="alta">Alta</option>
-                </select>
-            </div>
-            <div class="field-group-inline">
-                <label class="field-label">SCADENZA</label>
-                <input type="date" id="mod-scadenza" class="field-input field-date">
-            </div>
-            <div class="field-group-inline">
-                <label class="field-label">CATEGORIA</label>
-                <select id="mod-categoria" class="field-select"></select>
-            </div>
-        </div>
-        <input type="hidden" id="mod-id">
-        <div class="form-row" style="justify-content: flex-end; margin-top: 8px;">
-            <button class="btn-ghost" onclick="chiudiModale()">Annulla</button>
-            <button class="btn-primary" onclick="salvaModifica()">Salva</button>
-        </div>
-    </div>
-</div>
 <body class="dashboard-page">
 
-    <!-- TOPBAR -->
     <header class="topbar">
         <div class="topbar-inner">
             <div class="topbar-brand">
@@ -63,7 +25,6 @@
 
     <main class="dashboard-main">
 
-        <!-- PAGE TITLE -->
         <div class="page-header">
             <h1 class="page-title">Le mie task</h1>
             <span class="mono-small" id="data-oggi"></span>
@@ -86,7 +47,7 @@
                     </div>
                     <div class="field-group-inline">
                         <label class="field-label">SCADENZA</label>
-                        <input type="date" id="task-scadenza" class="field-input field-date">
+                        <input type="date" id="task-scadenza" class="field-input field-date" min="2024-01-01" max="2099-12-31">
                     </div>
                     <div class="field-group-inline">
                         <label class="field-label">CATEGORIA</label>
@@ -99,26 +60,27 @@
                 <p id="task-errore" class="msg-error"></p>
             </div>
         </section>
+
         <!-- IMPORT LISTA -->
-<section class="panel">
-    <div class="panel-label">IMPORT DA LISTA</div>
-    <div class="field-group">
-        <label class="field-label">INCOLLA QUI LA TUA LISTA (UNA RIGA = UNA TASK)</label>
-        <textarea id="import-testo" class="field-input field-textarea" style="min-height: 120px" placeholder="Comprare il latte&#10;Studiare PHP&#10;Fare la spesa&#10;Chiamare il cliente"></textarea>
-    </div>
-    <div class="form-row" style="margin-top: 8px;">
-        <div class="field-group-inline">
-            <label class="field-label">PRIORITÀ DEFAULT</label>
-            <select id="import-priorita" class="field-select">
-                <option value="bassa">Bassa</option>
-                <option value="media" selected>Media</option>
-                <option value="alta">Alta</option>
-            </select>
-        </div>
-        <button class="btn-primary" onclick="importaLista()">Importa task</button>
-    </div>
-    <p id="import-risultato" class="mono-small" style="margin-top: 8px;"></p>
-</section>
+        <section class="panel">
+            <div class="panel-label">IMPORT DA LISTA</div>
+            <div class="field-group">
+                <label class="field-label">INCOLLA QUI LA TUA LISTA (UNA RIGA = UNA TASK)</label>
+                <textarea id="import-testo" class="field-input field-textarea" style="min-height:120px" placeholder="Comprare il latte&#10;Studiare PHP&#10;Fare la spesa"></textarea>
+            </div>
+            <div class="form-row" style="margin-top:8px;">
+                <div class="field-group-inline">
+                    <label class="field-label">PRIORITÀ DEFAULT</label>
+                    <select id="import-priorita" class="field-select">
+                        <option value="bassa">Bassa</option>
+                        <option value="media" selected>Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="importaLista()">Importa task</button>
+            </div>
+            <p id="import-risultato" class="mono-small" style="margin-top:8px;"></p>
+        </section>
 
         <!-- AZIONI IN BLOCCO -->
         <section class="bulk-bar">
@@ -140,7 +102,7 @@
 
         <div class="dashboard-grid">
 
-            <!-- TASK CONDIVISE -->
+            <!-- CONDIVISE -->
             <section class="panel">
                 <div class="panel-label">CONDIVISE CON ME</div>
                 <div id="lista-condivise" class="tasks-list"></div>
@@ -151,7 +113,7 @@
                 <div class="panel-label">CATEGORIE</div>
                 <div class="form-row form-row-tight">
                     <input type="text" id="cat-nome" class="field-input" placeholder="Nome categoria">
-                    <input type="color" id="cat-colore" class="field-color" value="#d97706">
+                    <input type="color" id="cat-colore" class="field-color" value="#BC7B6F">
                     <button class="btn-outline" onclick="creaCategoria()">+ Aggiungi</button>
                 </div>
                 <div id="lista-categorie" class="categorie-list"></div>
@@ -160,6 +122,52 @@
         </div>
 
     </main>
+
+    <!-- MODALE MODIFICA -->
+    <div id="modale-modifica" class="modale-overlay nascosto">
+        <div class="modale-card">
+            <div class="panel-label">MODIFICA TASK</div>
+            <div class="field-group">
+                <label class="field-label">TITOLO</label>
+                <input type="text" id="mod-titolo" class="field-input">
+            </div>
+            <div class="field-group">
+                <label class="field-label">DESCRIZIONE</label>
+                <textarea id="mod-descrizione" class="field-input field-textarea"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="field-group-inline">
+                    <label class="field-label">PRIORITÀ</label>
+                    <select id="mod-priorita" class="field-select">
+                        <option value="bassa">Bassa</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <div class="field-group-inline">
+                    <label class="field-label">SCADENZA</label>
+                    <input type="date" id="mod-scadenza" class="field-input field-date" min="2024-01-01" max="2099-12-31">
+                </div>
+                <div class="field-group-inline">
+                    <label class="field-label">CATEGORIA</label>
+                    <select id="mod-categoria" class="field-select"></select>
+                </div>
+            </div>
+            <input type="hidden" id="mod-id">
+            <div class="field-group">
+                <label class="field-label">CONDIVIDI CON (EMAIL)</label>
+                <div class="form-row" style="flex-wrap:nowrap;">
+                    <input type="email" id="mod-share-email" class="field-input" placeholder="email@utente.com">
+                    <button class="btn-outline" style="align-self:flex-end;" onclick="condividiTask()">Condividi</button>
+                </div>
+                <p id="share-msg" class="msg-success"></p>
+            </div>
+            <div class="form-row" style="justify-content:flex-end; margin-top:8px;">
+                <button class="btn-ghost" onclick="chiudiModale()">Annulla</button>
+                <button class="btn-primary" onclick="salvaModifica()">Salva</button>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
