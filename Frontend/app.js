@@ -411,6 +411,10 @@ async function caricaCondivise() {
         const card = document.createElement('div');
         card.className = `task-card ${task.completato == 1 ? 'completato' : ''}`;
         card.innerHTML = `
+            <label class="custom-check-wrap">
+                <input type="checkbox" class="condivisa-check" value="${task.id}">
+                <span class="custom-check"></span>
+            </label>
             <div class="task-body">
                 <div class="task-title">${task.titolo}</div>
                 <div class="task-meta">
@@ -421,10 +425,44 @@ async function caricaCondivise() {
             </div>
             <div class="task-actions">
                 <button class="btn-icon" onclick="importaCondivisa(${task.id})" title="Importa nelle mie task">⬇</button>
+                <button class="btn-icon btn-icon-danger" onclick="eliminaCondivisa(${task.id})" title="Elimina">✕</button>
             </div>
         `;
         lista.appendChild(card);
     });
+}
+
+function selezionaTuttoCondivise() {
+    const checked = document.getElementById('seleziona-tutto-condivise').checked;
+    document.querySelectorAll('.condivisa-check').forEach(cb => cb.checked = checked);
+}
+
+function getIdCondiviseSelezionate() {
+    return [...document.querySelectorAll('.condivisa-check:checked')].map(cb => parseInt(cb.value));
+}
+
+async function eliminaCondivisa(taskId) {
+    if (!confirm('Eliminare questa task condivisa?')) return;
+    await eliminaCondiviseIds([taskId]);
+}
+
+async function eliminaCondiviseSelezionate() {
+    const ids = getIdCondiviseSelezionate();
+    if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
+    if (!confirm(`Eliminare ${ids.length} task condivise?`)) return;
+    await eliminaCondiviseIds(ids);
+}
+
+async function eliminaCondiviseIds(ids) {
+    // Elimina una per una (riusa l'endpoint delete esistente o chiama in loop)
+    for (const id of ids) {
+        await fetch(`${API}/tasks/delete.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+    }
+    caricaCondivise();
 }
 
 async function importaCondivisa(taskId) {
@@ -436,8 +474,25 @@ async function importaCondivisa(taskId) {
     const data = await res.json();
     if (res.ok) {
         alert('✓ ' + data.messaggio);
-        caricaTasks(); // aggiorna la lista "Le mie task"
+        caricaTasks();
     } else {
         alert('✕ ' + data.errore);
     }
+}
+
+async function importaCondiviseSelezionate() {
+    const ids = getIdCondiviseSelezionate();
+    if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
+    let ok = 0;
+    for (const id of ids) {
+        const res = await fetch(`${API}/shared/import.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ task_id: id })
+        });
+        if (res.ok) ok++;
+    }
+    alert(`✓ ${ok} task importate su ${ids.length}.`);
+    caricaTasks();
+    caricaCondivise();
 }

@@ -116,7 +116,9 @@
                     <input type="color" id="cat-colore" class="field-color" value="#7C3AED">
                     <button class="btn-outline" onclick="creaCategoria()">+ Aggiungi</button>
                 </div>
-                <div id="lista-categorie" class="categorie-list"></div>
+                <div class="categorie-scroll-wrap">
+                    <div id="lista-categorie" class="categorie-list"></div>
+                </div>
             </section>
 
         </div>
@@ -161,14 +163,26 @@
             <div id="lista-tasks" class="tasks-list"></div>
         </section>
 
-        <div class="dashboard-grid">
+        <!-- AZIONI IN BLOCCO CONDIVISE -->
+        <section class="bulk-bar bulk-bar-condivise">
+            <label class="custom-check-wrap">
+                <input type="checkbox" id="seleziona-tutto-condivise" onchange="selezionaTuttoCondivise()">
+                <span class="custom-check"></span>
+                <span class="mono-small">Seleziona tutto</span>
+            </label>
+            <div class="bulk-actions">
+                <button class="btn-danger" onclick="eliminaCondiviseSelezionate()">✕ Elimina selezionate</button>
+                <button class="btn-ghost" onclick="importaCondiviseSelezionate()">⬇ Importa selezionate</button>
+            </div>
+        </section>
 
-            <!-- TASK CONDIVISE -->
-            <section class="panel">
-                <div class="panel-label">CONDIVISE CON ME</div>
+        <!-- LISTA TASK CONDIVISE -->
+        <section class="panel condivise-panel">
+            <div class="panel-label">CONDIVISE CON ME</div>
+            <div class="condivise-scroll-wrap">
                 <div id="lista-condivise" class="tasks-list"></div>
-            </section>
-        </div>
+            </div>
+        </section>
 
     </main>
 

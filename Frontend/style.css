@@ -556,6 +556,18 @@ h2 { font-size: 1.2rem; font-weight: 600; }
 .task-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
 
 /* ─── CATEGORIE ─── */
+.categorie-scroll-wrap {
+    max-height: calc(3 * 44px + 2 * 8px); /* 3 items + 2 gaps */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    border-radius: var(--radius-sm);
+}
+
+.categorie-scroll-wrap::-webkit-scrollbar { width: 4px; }
+.categorie-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.categorie-scroll-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
 .categorie-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 
 .categoria-item {
@@ -597,6 +609,24 @@ h2 { font-size: 1.2rem; font-weight: 600; }
     color: var(--text-mute);
     font-family: var(--font-mono);
     font-size: 0.8rem;
+
+/* ─── CONDIVISE CON ME ─── */
+.condivise-panel { margin-top: 0; }
+
+.bulk-bar-condivise { margin-top: 32px; }
+
+.condivise-scroll-wrap {
+    max-height: calc(3 * 80px + 2 * 10px); /* 3 task cards + 2 gaps */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    border-radius: var(--radius-sm);
+    margin-top: 8px;
+}
+
+.condivise-scroll-wrap::-webkit-scrollbar { width: 4px; }
+.condivise-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.condivise-scroll-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     letter-spacing: 0.06em;
 }
 
