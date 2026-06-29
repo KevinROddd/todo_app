@@ -10,9 +10,11 @@
 </head>
 <body class="auth-page">
     <div class="auth-wrapper">
+
         <div class="auth-brand">
-            <span class="brand-mark">◈</span>
-            <span class="brand-name">TASK</span>
+            <img src="logo.png" alt="TodoList logo" class="brand-logo">
+            <span class="brand-name">TODOLIST</span>
+            <button class="theme-toggle" id="theme-toggle-auth" onclick="toggleTema()" title="Cambia tema">🌙</button>
         </div>
 
         <!-- LOGIN -->
@@ -58,9 +60,30 @@
         </div>
 
         <div class="auth-footer">
-            <span class="mono-small">TASK v1.0 — Gestione obiettivi</span>
+            <span class="mono-small">TODOLIST v1.0 — Gestione obiettivi</span>
         </div>
     </div>
+
     <script src="app.js"></script>
+    <script>
+        // ─── GESTIONE TEMA ───
+        function applicaTema(tema) {
+            document.documentElement.setAttribute('data-theme', tema);
+            localStorage.setItem('tema', tema);
+            const btn = document.getElementById('theme-toggle-auth');
+            if (btn) btn.textContent = tema === 'dark' ? '🌞' : '🌙';
+        }
+
+        function toggleTema() {
+            const attuale = document.documentElement.getAttribute('data-theme');
+            applicaTema(attuale === 'dark' ? 'light' : 'dark');
+        }
+
+        // Applica tema salvato all'avvio
+        (function() {
+            const salvato = localStorage.getItem('tema') || 'light';
+            applicaTema(salvato);
+        })();
+    </script>
 </body>
 </html>
