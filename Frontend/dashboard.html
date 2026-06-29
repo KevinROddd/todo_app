@@ -55,8 +55,13 @@
     <header class="topbar">
         <div class="topbar-inner">
             <div class="topbar-brand">
-                <span class="brand-mark">◈</span>
-                <span class="brand-name">TASK</span>
+                <span class="brand-mark"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+  <line x1="7" y1="10" x2="13" y2="10" stroke="currentColor" stroke-width="2"/>
+  <line x1="7" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="2"/>
+  <line x1="7" y1="13" x2="10" y2="13" stroke="currentColor" stroke-width="2"/>
+</svg></span>
+                <span class="brand-name">TASK MANAGER</span>
             </div>
             <div class="topbar-user">
                 <span class="mono-small" id="nome-utente"></span>
@@ -69,40 +74,56 @@
 
         <!-- PAGE TITLE -->
         <div class="page-header">
-            <h1 class="page-title">Le mie task</h1>
+            <h1 class="page-title">Crea e gestisci le tue task qui:</h1>
             <span class="mono-small" id="data-oggi"></span>
         </div>
 
-        <!-- NUOVA TASK -->
-        <section class="panel">
-            <div class="panel-label">NUOVA TASK</div>
-            <div class="new-task-form">
-                <input type="text" id="task-titolo" class="field-input field-large" placeholder="Descrivi la tua task…">
-                <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Note aggiuntive (opzionale)"></textarea>
-                <div class="form-row">
-                    <div class="field-group-inline">
-                        <label class="field-label">PRIORITÀ</label>
-                        <select id="task-priorita" class="field-select">
-                            <option value="bassa">Bassa</option>
-                            <option value="media" selected>Media</option>
-                            <option value="alta">Alta</option>
-                        </select>
-                    </div>
-                    <div class="field-group-inline">
-                        <label class="field-label">SCADENZA</label>
-                        <input type="date" id="task-scadenza" class="field-input field-date">
-                    </div>
-                    <div class="field-group-inline">
-                        <label class="field-label">CATEGORIA</label>
-                        <select id="task-categoria" class="field-select">
-                            <option value="">Nessuna</option>
-                        </select>
-                    </div>
-                    <button class="btn-primary" onclick="creaTask()">+ Aggiungi</button>
+       <!-- GRIGLIA SUPERIORE -->
+<div class="dashboard-grid">
+
+    <!-- NUOVA TASK -->
+    <section class="panel">
+        <div class="panel-label">NUOVA TASK</div>
+        <div class="new-task-form">
+            <input type="text" id="task-titolo" class="field-input field-large" placeholder="Descrivi la tua task…">
+            <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Note aggiuntive (opzionale)"></textarea>
+            <div class="form-row">
+                <div class="field-group-inline">
+                    <label class="field-label">PRIORITÀ</label>
+                    <select id="task-priorita" class="field-select">
+                        <option value="bassa">Bassa</option>
+                        <option value="media" selected>Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
                 </div>
-                <p id="task-errore" class="msg-error"></p>
+                <div class="field-group-inline">
+                    <label class="field-label">SCADENZA</label>
+                    <input type="date" id="task-scadenza" class="field-input field-date">
+                </div>
+                <div class="field-group-inline">
+                    <label class="field-label">CATEGORIA</label>
+                    <select id="task-categoria" class="field-select">
+                        <option value="">Nessuna</option>
+                    </select>
+                </div>
             </div>
-        </section>
+            <p id="task-errore" class="msg-error"></p>
+            <button class="btn-primary" style="margin-top: 12px;" onclick="creaTask()">+ Aggiungi</button>
+        </div>
+    </section>
+
+    <!-- CATEGORIE -->
+    <section class="panel">
+        <div class="panel-label">CATEGORIE</div>
+        <div class="form-row form-row-tight">
+            <input type="text" id="cat-nome" class="field-input" placeholder="Nome categoria">
+            <input type="color" id="cat-colore" class="field-color" value="#d97706">
+            <button class="btn-outline" onclick="creaCategoria()">+ Aggiungi</button>
+        </div>
+        <div id="lista-categorie" class="categorie-list"></div>
+    </section>
+
+</div>
         <!-- IMPORT LISTA -->
 <section class="panel">
     <div class="panel-label">CREA LA TUA LISTA</div>
@@ -151,18 +172,6 @@
                 <div class="panel-label">CONDIVISE CON ME</div>
                 <div id="lista-condivise" class="tasks-list"></div>
             </section>
-
-            <!-- CATEGORIE -->
-            <section class="panel">
-                <div class="panel-label">CATEGORIE</div>
-                <div class="form-row form-row-tight">
-                    <input type="text" id="cat-nome" class="field-input" placeholder="Nome categoria">
-                    <input type="color" id="cat-colore" class="field-color" value="#d97706">
-                    <button class="btn-outline" onclick="creaCategoria()">+ Aggiungi</button>
-                </div>
-                <div id="lista-categorie" class="categorie-list"></div>
-            </section>
-
         </div>
 
     </main>

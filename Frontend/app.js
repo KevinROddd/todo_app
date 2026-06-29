@@ -81,10 +81,16 @@ async function caricaTasks() {
         return;
     }
 
-    // Mappa categorie per nome
+    // Mappa categorie per nome e colore
     const selectCat = document.getElementById('task-categoria');
     const catMap = {};
-    [...selectCat.options].forEach(o => { if (o.value) catMap[o.value] = o.textContent; });
+    const catColoreMap = {};
+    [...selectCat.options].forEach(o => {
+        if (o.value) {
+            catMap[o.value] = o.textContent;
+            catColoreMap[o.value] = o.dataset.colore;
+        }
+    });
 
     tasks.forEach(task => {
         const card = document.createElement('div');
@@ -101,7 +107,7 @@ async function caricaTasks() {
                 <div class="task-meta">
                     <span class="badge badge-${task.priorita}">${task.priorita}</span>
                     ${task.scadenza ? `<span class="task-date">${formatData(task.scadenza)}</span>` : ''}
-                    ${catNome ? `<span class="task-cat">▸ ${catNome}</span>` : ''}
+                    ${catNome ? `<span class="task-cat" style="color: ${catColoreMap[task.category_id]}">▸ ${catNome}</span>` : ''}
                     ${task.descrizione ? `<span class="task-date">${task.descrizione}</span>` : ''}
                 </div>
             </div>
@@ -211,7 +217,7 @@ async function salvaModifica() {
 }
 
 async function condividiTask() {
-    const task_id = document.getElementById('mod-id').value;
+    const task_id = parseInt(document.getElementById('mod-id').value);
     const email = document.getElementById('mod-share-email').value.trim();
     const msg = document.getElementById('share-msg');
 
@@ -275,29 +281,22 @@ async function completaSelezionate() {
 async function condividiSelezionate() {
     const ids = getIdSelezionati();
     if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
-    if (!confirm(`Condividere ${ids.length} task?`)) return;
     const email = prompt('Inserisci l\'email dell\'utente con cui condividere:');
     if (!email) return;
-    await fetch(`${API}/shared/share_multiple.php`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids })
-    });
-    caricaTasks();
-}
 
-/*async function condividiSelezionate() {
-    const ids = getIdSelezionati();
-    if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
-    const email = prompt('Inserisci l\'email dell\'utente con cui condividere:');
-    if (!email) return;
-    await fetch(`${API}/shared/share_multiple.php`, {
+    const res = await fetch(`${API}/shared/share_multiple.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids, email })
     });
+    const data = await res.json();
+    if (res.ok) {
+        alert('✓ ' + data.messaggio);
+    } else {
+        alert('✕ ' + data.errore);
+    }
     caricaTasks();
-}*/
+}
 
 // ── IMPORT LISTA ──────────────────────────────────
 
@@ -353,6 +352,7 @@ async function caricaCategorie() {
         const option = document.createElement('option');
         option.value = cat.id;
         option.textContent = cat.nome;
+        option.dataset.colore = cat.colore;
         select.appendChild(option);
     });
 
@@ -392,6 +392,11 @@ async function caricaCondivise() {
     const lista = document.getElementById('lista-condivise');
     lista.innerHTML = '';
 
+    if (!Array.isArray(tasks)) {
+        lista.innerHTML = `<div class="empty-state">Errore: ${tasks.errore || 'risposta inattesa'}</div>`;
+        return;
+    }
+
     if (tasks.length === 0) {
         lista.innerHTML = '<div class="empty-state">NESSUNA TASK CONDIVISA</div>';
         return;
@@ -409,7 +414,25 @@ async function caricaCondivise() {
                     <span class="task-shared-by">da ${task.condiviso_da}</span>
                 </div>
             </div>
+            <div class="task-actions">
+                <button class="btn-icon" onclick="importaCondivisa(${task.id})" title="Importa nelle mie task">⬇</button>
+            </div>
         `;
         lista.appendChild(card);
     });
+}
+
+async function importaCondivisa(taskId) {
+    const res = await fetch(`${API}/shared/import.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task_id: taskId })
+    });
+    const data = await res.json();
+    if (res.ok) {
+        alert('✓ ' + data.messaggio);
+        caricaTasks(); // aggiorna la lista "Le mie task"
+    } else {
+        alert('✕ ' + data.errore);
+    }
 }
