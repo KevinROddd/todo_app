@@ -95,6 +95,11 @@ async function caricaTasks() {
     tasks.forEach(task => {
         const card = document.createElement('div');
         card.className = `task-card ${task.completato == 1 ? 'completato' : ''}`;
+            if (task.category_id && catColoreMap[task.category_id]) {
+                const colore = catColoreMap[task.category_id];
+                card.style.borderLeft = `4px solid ${colore}`;
+                card.style.backgroundColor = `${colore}18`;
+                }
         const catNome = task.category_id && catMap[task.category_id] ? catMap[task.category_id] : '';
         card.innerHTML = `
             <label class="custom-check-wrap">
@@ -107,7 +112,7 @@ async function caricaTasks() {
                 <div class="task-meta">
                     <span class="badge badge-${task.priorita}">${task.priorita}</span>
                     ${task.scadenza ? `<span class="task-date">${formatData(task.scadenza)}</span>` : ''}
-                    ${catNome ? `<span class="task-cat" style="color: ${catColoreMap[task.category_id]}">▸ ${catNome}</span>` : ''}
+                    ${catNome ? `<span class="task-cat" style="color: ${catColoreMap[task.category_id]}; font-weight: 400;">▸ ${catNome}</span>` : ''}
                     ${task.descrizione ? `<span class="task-date">${task.descrizione}</span>` : ''}
                 </div>
             </div>
