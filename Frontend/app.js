@@ -1,5 +1,51 @@
 const API = '/todo_app/api';
 
+// ── INDICATORE DI CARICAMENTO ─────────────────────
+// Mostra un overlay con spinner ogni volta che è in corso una richiesta
+// al server, così l'utente capisce che il sito sta lavorando e non è bloccato
+// (utile perché le richieste, passando per un DB remoto, possono essere lente).
+
+let richiesteAttive = 0;
+
+function creaLoadingOverlay() {
+    if (document.getElementById('loading-overlay')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'loading-overlay';
+    overlay.className = 'loading-overlay nascosto';
+    overlay.innerHTML = `
+        <div class="loading-box">
+            <span class="loading-spinner"></span>
+            <span class="loading-text">Sto lavorando, attendi…</span>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+}
+
+function mostraCaricamento() {
+    richiesteAttive++;
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) overlay.classList.remove('nascosto');
+}
+
+function nascondiCaricamento() {
+    richiesteAttive = Math.max(0, richiesteAttive - 1);
+    if (richiesteAttive === 0) {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.classList.add('nascosto');
+    }
+}
+
+async function apiFetch(url, options) {
+    mostraCaricamento();
+    try {
+        return await fetch(url, options);
+    } finally {
+        nascondiCaricamento();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', creaLoadingOverlay);
+
 // ── AUTH ──────────────────────────────────────────
 
 function mostraLogin() {
@@ -15,7 +61,7 @@ function mostraRegistrazione() {
 async function login() {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
-    const res = await fetch(`${API}/auth/login.php`, {
+    const res = await apiFetch(`${API}/auth/login.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -33,7 +79,7 @@ async function registrati() {
     const nome = document.getElementById('reg-nome').value;
     const email = document.getElementById('reg-email').value;
     const password = document.getElementById('reg-password').value;
-    const res = await fetch(`${API}/auth/register.php`, {
+    const res = await apiFetch(`${API}/auth/register.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, password })
@@ -48,7 +94,7 @@ async function registrati() {
 }
 
 async function logout() {
-    await fetch(`${API}/auth/logout.php`, { method: 'POST' });
+    await apiFetch(`${API}/auth/logout.php`, { method: 'POST' });
     localStorage.removeItem('utente');
     window.location.href = 'index.html';
 }
@@ -71,7 +117,7 @@ window.addEventListener('load', () => {
 // ── TASK ──────────────────────────────────────────
 
 async function caricaTasks() {
-    const res = await fetch(`${API}/tasks/get.php`);
+    const res = await apiFetch(`${API}/tasks/get.php`);
     const tasks = await res.json();
     const lista = document.getElementById('lista-tasks');
     lista.innerHTML = '';
@@ -143,7 +189,7 @@ async function creaTask() {
         return;
     }
 
-    const res = await fetch(`${API}/tasks/create.php`, {
+    const res = await apiFetch(`${API}/tasks/create.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ titolo, descrizione, priorita, scadenza, category_id })
@@ -161,7 +207,7 @@ async function creaTask() {
 }
 
 async function toggleCompleta(id) {
-    await fetch(`${API}/tasks/complete.php`, {
+    await apiFetch(`${API}/tasks/complete.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
@@ -171,7 +217,7 @@ async function toggleCompleta(id) {
 
 async function eliminaTask(id) {
     if (!confirm('Eliminare questa task?')) return;
-    await fetch(`${API}/tasks/delete.php`, {
+    await apiFetch(`${API}/tasks/delete.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
@@ -210,7 +256,7 @@ async function salvaModifica() {
     const scadenza = document.getElementById('mod-scadenza').value;
     const category_id = document.getElementById('mod-categoria').value || null;
 
-    const res = await fetch(`${API}/tasks/update.php`, {
+    const res = await apiFetch(`${API}/tasks/update.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, titolo, descrizione, priorita, scadenza, category_id })
@@ -228,7 +274,7 @@ async function condividiTask() {
 
     if (!email) { msg.textContent = 'Inserisci un\'email'; msg.className = 'msg-error'; return; }
 
-    const res = await fetch(`${API}/shared/share.php`, {
+    const res = await apiFetch(`${API}/shared/share.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task_id, email })
@@ -264,7 +310,7 @@ async function eliminaSelezionate() {
     const ids = getIdSelezionati();
     if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
     if (!confirm(`Eliminare ${ids.length} task?`)) return;
-    await fetch(`${API}/tasks/delete_multiple.php`, {
+    await apiFetch(`${API}/tasks/delete_multiple.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids })
@@ -275,7 +321,7 @@ async function eliminaSelezionate() {
 async function completaSelezionate() {
     const ids = getIdSelezionati();
     if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
-    await fetch(`${API}/tasks/complete_multiple.php`, {
+    await apiFetch(`${API}/tasks/complete_multiple.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids })
@@ -289,7 +335,7 @@ async function condividiSelezionate() {
     const email = prompt('Inserisci l\'email dell\'utente con cui condividere:');
     if (!email) return;
 
-    const res = await fetch(`${API}/shared/share_multiple.php`, {
+    const res = await apiFetch(`${API}/shared/share_multiple.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids, email })
@@ -318,7 +364,7 @@ async function importaLista() {
 
     let ok = 0;
     for (const titolo of righe) {
-        const res = await fetch(`${API}/tasks/create.php`, {
+        const res = await apiFetch(`${API}/tasks/create.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ titolo, priorita, descrizione: '', scadenza: null, category_id: null })
@@ -334,7 +380,7 @@ async function importaLista() {
 // ── CATEGORIE ─────────────────────────────────────
 
 async function caricaCategorie() {
-    const res = await fetch(`${API}/categories/get.php`);
+    const res = await apiFetch(`${API}/categories/get.php`);
     const categorie = await res.json();
     const lista = document.getElementById('lista-categorie');
     const select = document.getElementById('task-categoria');
@@ -368,7 +414,7 @@ async function creaCategoria() {
     const nome = document.getElementById('cat-nome').value.trim();
     const colore = document.getElementById('cat-colore').value;
     if (!nome) return;
-    const res = await fetch(`${API}/categories/create.php`, {
+    const res = await apiFetch(`${API}/categories/create.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, colore })
@@ -381,7 +427,7 @@ async function creaCategoria() {
 
 async function eliminaCategoria(id) {
     if (!confirm('Eliminare questa categoria?')) return;
-    await fetch(`${API}/categories/delete.php`, {
+    await apiFetch(`${API}/categories/delete.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
@@ -392,7 +438,7 @@ async function eliminaCategoria(id) {
 // ── CONDIVISE ─────────────────────────────────────
 
 async function caricaCondivise() {
-    const res = await fetch(`${API}/shared/get_shared.php`);
+    const res = await apiFetch(`${API}/shared/get_shared.php`);
     const tasks = await res.json();
     const lista = document.getElementById('lista-condivise');
     lista.innerHTML = '';
@@ -454,7 +500,7 @@ async function eliminaCondiviseSelezionate() {
 }
 
 async function eliminaCondiviseIds(ids) {
-    const res = await fetch(`${API}/shared/remove.php`, {
+    const res = await apiFetch(`${API}/shared/remove.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids })
@@ -467,7 +513,7 @@ async function eliminaCondiviseIds(ids) {
 }
 
 async function importaCondivisa(taskId) {
-    const res = await fetch(`${API}/shared/import.php`, {
+    const res = await apiFetch(`${API}/shared/import.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ task_id: taskId })
@@ -486,7 +532,7 @@ async function importaCondiviseSelezionate() {
     if (ids.length === 0) { alert('Seleziona almeno una task'); return; }
     let ok = 0;
     for (const id of ids) {
-        const res = await fetch(`${API}/shared/import.php`, {
+        const res = await apiFetch(`${API}/shared/import.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ task_id: id })

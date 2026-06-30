@@ -632,7 +632,7 @@ h2 { font-size: 1.2rem; font-weight: 600; }
 
 /* ─── LE MIE TASK ─── */
 .tasks-scroll-wrap {
-    max-height: calc(3 * 80px + 2 * 10px); /* 3 task cards + 2 gaps */
+    max-height: calc(10 * 80px + 2 * 10px); /* 3 task cards + 2 gaps */
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -645,6 +645,50 @@ h2 { font-size: 1.2rem; font-weight: 600; }
 
 /* ─── UTILITIES ─── */
 .nascosto { display: none !important; }
+
+/* ─── LOADING OVERLAY ─── */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(1px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 26px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: loading-spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+.loading-text {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+}
+
+@keyframes loading-spin {
+    to { transform: rotate(360deg); }
+}
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
