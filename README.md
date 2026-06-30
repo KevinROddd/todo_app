@@ -3,13 +3,12 @@
 
 ## Tirocinanti
 - Samuele Marenco (4^B art. informatica)
-- Kevin Rodriguez Lino
-- Danilo Manuel Platania
+- Kevin Rodriguez Lino (4^D art. informatica)
+- Danilo Manuel Platania (4^D art. informatica)
 - Patrick Galati (4^D art. informatica)
-
-## Realizzazione applicativo per la gestione di una To-Do List
-
+- 
 ### Richieste di sviluppo
+- Realizzazione applicativo per la gestione di una To-Do List.
 - Gestione della lista tramite funzioni di aggiunta, cancellazione, modifica e check conclusivo.
 - Assegnare ID per gli elementi della lista
 - Verificare la correttezza delle info inserite
