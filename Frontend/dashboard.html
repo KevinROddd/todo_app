@@ -157,7 +157,55 @@
                 <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
             </div>
         </section>
-
+<!-- FILTRI -->
+<section class="panel filters-panel">
+    <div class="panel-label">🔍 FILTRI</div>
+    <div class="form-row">
+        <div class="field-group-inline">
+            <label class="field-label">STATO</label>
+            <select id="filtro-stato" class="field-select" onchange="applicaFiltri()">
+                <option value="tutte">Tutte</option>
+                <option value="in-corso">In corso</option>
+                <option value="completate">Completate</option>
+            </select>
+        </div>
+        <div class="field-group-inline">
+            <label class="field-label">PRIORITÀ</label>
+            <select id="filtro-priorita" class="field-select" onchange="applicaFiltri()">
+                <option value="tutte">Tutte</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="bassa">Bassa</option>
+            </select>
+        </div>
+        <div class="field-group-inline">
+            <label class="field-label">CATEGORIA</label>
+            <select id="filtro-categoria" class="field-select" onchange="applicaFiltri()">
+                <option value="tutte">Tutte</option>
+            </select>
+        </div>
+        <div class="field-group-inline">
+            <label class="field-label">SCADENZA</label>
+            <select id="filtro-scadenza" class="field-select" onchange="applicaFiltri()">
+                <option value="tutte">Tutte</option>
+                <option value="oggi">Oggi</option>
+                <option value="settimana">Questa settimana</option>
+                <option value="scadute">Scadute</option>
+            </select>
+        </div>
+        <div class="field-group-inline">
+            <label class="field-label">ORDINA PER</label>
+            <select id="filtro-ordine" class="field-select" onchange="applicaFiltri()">
+                <option value="data-desc">Più recenti</option>
+                <option value="data-asc">Più vecchie</option>
+                <option value="priorita-desc">Priorità alta → bassa</option>
+                <option value="priorita-asc">Priorità bassa → alta</option>
+                <option value="scadenza-asc">Scadenza vicina</option>
+            </select>
+        </div>
+        <button class="btn-ghost" onclick="resetFiltri()">✕ Reset</button>
+    </div>
+</section>
         <!-- LISTA TASK -->
         <section class="tasks-section">
             <div class="tasks-scroll-wrap">

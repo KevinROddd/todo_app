@@ -726,3 +726,10 @@ h2 { font-size: 1.2rem; font-weight: 600; }
     gap: 16px;
     transition: background 0.2s, border-color 0.2s;
 }
+.filters-panel {
+    background: var(--surface);
+}
+
+.filters-panel .form-row {
+    align-items: flex-end;
+}

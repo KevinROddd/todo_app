@@ -382,27 +382,36 @@ async function caricaCategorie() {
     const select = document.getElementById('task-categoria');
     lista.innerHTML = '';
     select.innerHTML = '<option value="">Nessuna</option>';
+    const selectFiltro = document.getElementById('filtro-categoria');
+    if (selectFiltro) selectFiltro.innerHTML = '<option value="tutte">Tutte</option>';
 
     if (categorie.length === 0) {
         lista.innerHTML = '<div class="empty-state">NESSUNA CATEGORIA</div>';
     }
 
     categorie.forEach(cat => {
-        const div = document.createElement('div');
-        div.className = 'categoria-item';
-        div.innerHTML = `
-            <span class="colore-dot" style="background:${cat.colore}"></span>
-            <span class="categoria-nome">${cat.nome}</span>
-            <button class="btn-icon btn-icon-danger" onclick="eliminaCategoria(${cat.id})">✕</button>
-        `;
-        lista.appendChild(div);
-        const option = document.createElement('option');
-        option.value = cat.id;
-        option.textContent = cat.nome;
-        option.dataset.colore = cat.colore;
-        select.appendChild(option);
-    });
+    const div = document.createElement('div');
+    div.className = 'categoria-item';
+    div.innerHTML = `
+        <span class="colore-dot" style="background:${cat.colore}"></span>
+        <span class="categoria-nome">${cat.nome}</span>
+        <button class="btn-icon btn-icon-danger" onclick="eliminaCategoria(${cat.id})">✕</button>
+    `;
+    lista.appendChild(div);
 
+    const option = document.createElement('option');
+    option.value = cat.id;
+    option.textContent = cat.nome;
+    option.dataset.colore = cat.colore;
+    select.appendChild(option);
+
+    if (selectFiltro) {
+        const optFiltro = document.createElement('option');
+        optFiltro.value = cat.id;
+        optFiltro.textContent = cat.nome;
+        selectFiltro.appendChild(optFiltro);
+    }
+});
     caricaTasks();
 }
 
@@ -538,4 +547,121 @@ async function importaCondiviseSelezionate() {
     alert(`✓ ${ok} task importate su ${ids.length}.`);
     caricaTasks();
     caricaCondivise();
+}
+let tasksCache = [];
+
+async function caricaTasks() {
+    const res = await apiFetch(`${API}/tasks/get.php`);
+    tasksCache = await res.json();
+    applicaFiltri();
+}
+
+function applicaFiltri() {
+    let tasks = [...tasksCache];
+
+    const stato = document.getElementById('filtro-stato')?.value || 'tutte';
+    const priorita = document.getElementById('filtro-priorita')?.value || 'tutte';
+    const categoria = document.getElementById('filtro-categoria')?.value || 'tutte';
+    const scadenzaFiltro = document.getElementById('filtro-scadenza')?.value || 'tutte';
+    const ordine = document.getElementById('filtro-ordine')?.value || 'data-desc';
+
+    // Filtro stato
+    if (stato === 'completate') tasks = tasks.filter(t => t.completato == 1);
+    if (stato === 'in-corso') tasks = tasks.filter(t => t.completato == 0);
+
+    // Filtro priorità
+    if (priorita !== 'tutte') tasks = tasks.filter(t => t.priorita === priorita);
+
+    // Filtro categoria
+    if (categoria !== 'tutte') tasks = tasks.filter(t => String(t.category_id) === categoria);
+
+    // Filtro scadenza
+    const oggi = new Date(); oggi.setHours(0,0,0,0);
+    const traSetteGiorni = new Date(oggi); traSetteGiorni.setDate(oggi.getDate() + 7);
+
+    if (scadenzaFiltro === 'oggi') {
+        tasks = tasks.filter(t => t.scadenza && new Date(t.scadenza).toDateString() === oggi.toDateString());
+    }
+    if (scadenzaFiltro === 'settimana') {
+        tasks = tasks.filter(t => t.scadenza && new Date(t.scadenza) >= oggi && new Date(t.scadenza) <= traSetteGiorni);
+    }
+    if (scadenzaFiltro === 'scadute') {
+        tasks = tasks.filter(t => t.scadenza && new Date(t.scadenza) < oggi && t.completato == 0);
+    }
+
+    // Ordinamento
+    const ordinePriorita = { alta: 3, media: 2, bassa: 1 };
+    if (ordine === 'data-desc') tasks.sort((a,b) => new Date(b.creato_il) - new Date(a.creato_il));
+    if (ordine === 'data-asc') tasks.sort((a,b) => new Date(a.creato_il) - new Date(b.creato_il));
+    if (ordine === 'priorita-desc') tasks.sort((a,b) => ordinePriorita[b.priorita] - ordinePriorita[a.priorita]);
+    if (ordine === 'priorita-asc') tasks.sort((a,b) => ordinePriorita[a.priorita] - ordinePriorita[b.priorita]);
+    if (ordine === 'scadenza-asc') tasks.sort((a,b) => {
+        if (!a.scadenza) return 1;
+        if (!b.scadenza) return -1;
+        return new Date(a.scadenza) - new Date(b.scadenza);
+    });
+
+    renderTasks(tasks);
+}
+
+function resetFiltri() {
+    document.getElementById('filtro-stato').value = 'tutte';
+    document.getElementById('filtro-priorita').value = 'tutte';
+    document.getElementById('filtro-categoria').value = 'tutte';
+    document.getElementById('filtro-scadenza').value = 'tutte';
+    document.getElementById('filtro-ordine').value = 'data-desc';
+    applicaFiltri();
+}
+
+function renderTasks(tasks) {
+    const lista = document.getElementById('lista-tasks');
+    lista.innerHTML = '';
+
+    if (tasks.length === 0) {
+        lista.innerHTML = '<div class="empty-state">NESSUNA TASK TROVATA — Prova a modificare i filtri</div>';
+        return;
+    }
+
+    const selectCat = document.getElementById('task-categoria');
+    const catMap = {};
+    const catColoreMap = {};
+    [...selectCat.options].forEach(o => {
+        if (o.value) {
+            catMap[o.value] = o.textContent;
+            catColoreMap[o.value] = o.dataset.colore;
+        }
+    });
+
+    tasks.forEach(task => {
+        const card = document.createElement('div');
+        card.className = `task-card ${task.completato == 1 ? 'completato' : ''}`;
+        if (task.category_id && catColoreMap[task.category_id]) {
+            const colore = catColoreMap[task.category_id];
+            card.style.borderLeft = `4px solid ${colore}`;
+            card.style.backgroundColor = `${colore}18`;
+        }
+        const catNome = task.category_id && catMap[task.category_id] ? catMap[task.category_id] : '';
+        card.innerHTML = `
+            <label class="custom-check-wrap">
+                <input type="checkbox" class="task-check" value="${task.id}">
+                <span class="custom-check"></span>
+            </label>
+            <input type="checkbox" class="task-checkbox" ${task.completato == 1 ? 'checked' : ''} onchange="toggleCompleta(${task.id})" title="Segna come completata">
+            <div class="task-body">
+                <div class="task-title">${task.titolo}</div>
+                <div class="task-meta">
+                    <span class="badge badge-${task.priorita}">${task.priorita}</span>
+                    ${task.scadenza ? `<span class="task-date">${formatData(task.scadenza)}</span>` : ''}
+                    ${catNome ? `<span class="task-cat" style="color: ${catColoreMap[task.category_id]}; font-weight: 400;">▸ ${catNome}</span>` : ''}
+                    ${task.descrizione ? `<span class="task-date">${task.descrizione}</span>` : ''}
+                </div>
+            </div>
+            <div class="task-actions">
+                <button class="btn-icon" onclick='apriModale(${JSON.stringify(task)})' title="Modifica">✎</button>
+                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi">📤</button>
+                <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
+            </div>
+        `;
+        lista.appendChild(card);
+    });
 }
