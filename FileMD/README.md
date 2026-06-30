@@ -1,13 +1,35 @@
-## GUIDA SU COME APRIRE IL PROGETTO ONLINE
 
-# Pre-requisiti:
+# Progetto per conto di Finsoft S.r.l - Tirocinio estivo 2026 ITI Ettore Majorana - Grugliasco
 
-- Avere XAMPP installato sul proprio dispositivo
+## Tirocinanti
+- Samuele Marenco (4^B art. informatica)
+- Kevin Rodriguez Lino (4^D art. informatica)
+- Danilo Manuel Platania (4^D art. informatica)
+- Patrick Galati (4^D art. informatica)
+- 
+### Richieste di sviluppo
+- Realizzazione applicativo per la gestione di una To-Do List.
+- Gestione della lista tramite funzioni di aggiunta, cancellazione, modifica e check conclusivo.
+- Assegnare ID per gli elementi della lista
+- Verificare la correttezza delle info inserite
+- UI minimalista ma funzionale
+- Realizzare e gestire una multiutenza
+- Gestione degli utenti (registrazione, login…)
+- Avere la possibilità di mostrare gli obiettivi agli altri utenti (solo visualizzazione)
 
-# Fase di preparazione e configurazione
+## Strumenti adottati per la realizzazione
 
-- Dalla repository di GitHub, scaricare le cartelle in locale
-- Una volta scaricate, copiare le cartelle seguendo il percorso: 'C:\xampp\htdocs'
-- Aprire XAMPP, e avviare Apache
-- Aprire il browser desiderato, e digitare il seguente indirizzo: 'http://localhost/todo_app/frontend/index.html'
-- Completare la registrazione con le proprie credenziali per accedere al sito
+### XAMPP
+Insieme di database utile per la gestione dei dati delle toDoList; come mySQL e Apache.
+
+### dBeaver
+Client che adotteremo per sfruttare al meglio le sue potenzialità al fine del lavoro.
+
+### Aiven
+Piattaforma online sfruttata per la sua funzionalità di multi-cloud, la quale ci ha permesso di ovviare al problema legato alle condivisioni delle task.
+
+### Visual Studio Code
+Software che adotteremo per sviluppare l’applicativo, realizzando il lato di UI con HTML e JavaScript, mentre le funzionalità dell’applicativo in linguaggio php.
+
+### GitHub
+Piattaforma che utilizzeremo convenzionalmente per tener conto della consegna, di modo che tutti possiamo apportare le dovute modifiche di pari passo.
