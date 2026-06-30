@@ -1,10 +1,10 @@
-##GUIDA SU COME APRIRE IL PROGETTO ONLINE
+## GUIDA SU COME APRIRE IL PROGETTO ONLINE
 
-##Pre-requisiti:
+# Pre-requisiti:
 
 - Avere XAMPP installato sul proprio dispositivo
 
-## Fase di preparazione e configurazione
+# Fase di preparazione e configurazione
 
 - Dalla repository di GitHub, scaricare le cartelle in locale
 - Una volta scaricate, copiare le cartelle seguendo il percorso: 'C:\xampp\htdocs'
