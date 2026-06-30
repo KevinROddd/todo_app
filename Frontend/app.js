@@ -164,6 +164,7 @@ async function caricaTasks() {
             </div>
             <div class="task-actions">
                 <button class="btn-icon" onclick='apriModale(${JSON.stringify(task)})' title="Modifica">✎</button>
+                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi">📤</button>
                 <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
             </div>
         `;
@@ -267,26 +268,21 @@ async function salvaModifica() {
     }
 }
 
-async function condividiTask() {
-    const task_id = parseInt(document.getElementById('mod-id').value);
-    const email = document.getElementById('mod-share-email').value.trim();
-    const msg = document.getElementById('share-msg');
-
-    if (!email) { msg.textContent = 'Inserisci un\'email'; msg.className = 'msg-error'; return; }
+async function condividiSingola(task_id) {
+    const email = prompt("Inserisci l'email dell'utente con cui condividere:");
+    if (!email) return;
 
     const res = await apiFetch(`${API}/shared/share.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ task_id, email })
+        body: JSON.stringify({ task_id: parseInt(task_id), email: email.trim() })
     });
+
     const data = await res.json();
     if (res.ok) {
-        msg.textContent = '✓ Task condivisa con successo';
-        msg.className = 'msg-success';
-        document.getElementById('mod-share-email').value = '';
+        alert('✓ Task condivisa con successo');
     } else {
-        msg.textContent = data.errore;
-        msg.className = 'msg-error';
+        alert('✕ ' + data.errore);
     }
 }
 
