@@ -454,13 +454,14 @@ async function eliminaCondiviseSelezionate() {
 }
 
 async function eliminaCondiviseIds(ids) {
-    // Elimina una per una (riusa l'endpoint delete esistente o chiama in loop)
-    for (const id of ids) {
-        await fetch(`${API}/tasks/delete.php`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id })
-        });
+    const res = await fetch(`${API}/shared/remove.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+        alert('✕ ' + (data.errore || 'Errore durante l\'eliminazione'));
     }
     caricaCondivise();
 }

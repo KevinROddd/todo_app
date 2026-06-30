@@ -609,6 +609,8 @@ h2 { font-size: 1.2rem; font-weight: 600; }
     color: var(--text-mute);
     font-family: var(--font-mono);
     font-size: 0.8rem;
+    letter-spacing: 0.06em;
+}
 
 /* ─── CONDIVISE CON ME ─── */
 .condivise-panel { margin-top: 0; }
@@ -627,8 +629,19 @@ h2 { font-size: 1.2rem; font-weight: 600; }
 .condivise-scroll-wrap::-webkit-scrollbar { width: 4px; }
 .condivise-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
 .condivise-scroll-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-    letter-spacing: 0.06em;
+
+/* ─── LE MIE TASK ─── */
+.tasks-scroll-wrap {
+    max-height: calc(3 * 80px + 2 * 10px); /* 3 task cards + 2 gaps */
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+    border-radius: var(--radius-sm);
 }
+
+.tasks-scroll-wrap::-webkit-scrollbar { width: 4px; }
+.tasks-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+.tasks-scroll-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 /* ─── UTILITIES ─── */
 .nascosto { display: none !important; }

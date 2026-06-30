@@ -153,14 +153,16 @@
             </label>
             <div class="bulk-actions">
                 <button class="btn-ghost" onclick="completaSelezionate()">✓ Completa selezionate</button>
-                <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
                 <button class="btn-ghost" onclick="condividiSelezionate()">⇄ Condividi selezionate</button>
+                <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
             </div>
         </section>
 
         <!-- LISTA TASK -->
         <section class="tasks-section">
-            <div id="lista-tasks" class="tasks-list"></div>
+            <div class="tasks-scroll-wrap">
+                <div id="lista-tasks" class="tasks-list"></div>
+            </div>
         </section>
 
         <!-- AZIONI IN BLOCCO CONDIVISE -->
