@@ -11,251 +11,849 @@
 <body class="dashboard-page">
 
     <!-- MODALE MODIFICA -->
-    <div id="modale-modifica" class="modale-overlay nascosto">
-        <div class="modale-card">
-            <div class="panel-label">MODIFICA TASK</div>
-            <div class="field-group">
-                <label class="field-label">TITOLO</label>
-                <input type="text" id="mod-titolo" class="field-input">
+<div id="modale-modifica" class="modale-overlay nascosto">
+
+    <div class="modale-card modern-modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="panel-label">
+                    TASK
+                </span>
+
+                <h2 class="modal-title">
+                    Edit task
+                </h2>
+
+                <p class="modal-subtitle">
+                    Update the information below.
+                </p>
+
             </div>
-            <div class="field-group">
-                <label class="field-label">DESCRIZIONE</label>
-                <textarea id="mod-descrizione" class="field-input field-textarea"></textarea>
-            </div>
-            <div class="form-row">
-                <div class="field-group-inline">
-                    <label class="field-label">PRIORITÀ</label>
-                    <select id="mod-priorita" class="field-select">
-                        <option value="bassa">Bassa</option>
-                        <option value="media">Media</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                </div>
-                <div class="field-group-inline">
-                    <label class="field-label">SCADENZA</label>
-                    <input type="date" id="mod-scadenza" class="field-input field-date">
-                </div>
-                <div class="field-group-inline">
-                    <label class="field-label">CATEGORIA</label>
-                    <select id="mod-categoria" class="field-select"></select>
-                </div>
-            </div>
-            <input type="hidden" id="mod-id">
-            <!-- Sezione condivisione (nascosta per ora) -->
-            <input type="hidden" id="mod-share-email">
-            <span id="share-msg"></span>
-            <div class="form-row" style="justify-content: flex-end; margin-top: 8px;">
-                <button class="btn-ghost" onclick="chiudiModale()">Annulla</button>
-                <button class="btn-primary" onclick="salvaModifica()">Salva</button>
-            </div>
+
+            <button class="btn-icon" onclick="chiudiModale()">
+                ✕
+            </button>
+
         </div>
+
+        <div class="modal-body">
+
+            <div class="field-group">
+
+                <label class="field-label">
+                    TITLE
+                </label>
+
+                <input
+                    type="text"
+                    id="mod-titolo"
+                    class="field-input field-large"
+                    placeholder="Task title">
+
+            </div>
+
+            <div class="field-group">
+
+                <label class="field-label">
+                    DESCRIPTION
+                </label>
+
+                <textarea
+                    id="mod-descrizione"
+                    class="field-input field-textarea"
+                    placeholder="Write some notes..."></textarea>
+
+            </div>
+
+            <div class="modal-grid">
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        PRIORITY
+                    </label>
+
+                    <select
+                        id="mod-priorita"
+                        class="field-select">
+
+                        <option value="bassa">Low</option>
+                        <option value="media">Medium</option>
+                        <option value="alta">High</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field-group">
+
+                    <label class="field-label">
+                        DUE DATE
+                    </label>
+
+                    <input
+                        type="date"
+                        id="mod-scadenza"
+                        class="field-input field-date">
+
+                </div>
+
+            </div>
+
+            <div class="field-group">
+
+                <label class="field-label">
+                    CATEGORY
+                </label>
+
+                <select
+                    id="mod-categoria"
+                    class="field-select">
+                </select>
+
+            </div>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="mod-id">
+
+        <input
+            type="hidden"
+            id="mod-share-email">
+
+        <span
+            id="share-msg">
+        </span>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn-outline"
+                onclick="chiudiModale()">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="btn-primary"
+                onclick="salvaModifica()">
+
+                Save Changes
+
+            </button>
+
+        </div>
+
     </div>
 
-    <!-- TOPBAR -->
-    <header class="topbar">
-        <div class="topbar-inner">
-            <div class="topbar-brand">
-                <img src="logo.png" alt="TodoList logo" class="brand-logo">
-                <span class="brand-name">TODOLIST</span>
-            </div>
-            <div class="topbar-user">
-                <span class="mono-small" id="nome-utente"></span>
-                <button class="theme-toggle" id="theme-toggle-dash" onclick="toggleTema()" title="Cambia tema">🌙</button>
-                <button class="btn-ghost" onclick="logout()">Esci</button>
-            </div>
-        </div>
-    </header>
+</div>
 
+    <!-- APP LAYOUT -->
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="sidebar-logo">
+
+                <img src="logo.png" alt="TodoList logo" class="brand-logo">
+
+                <span class="brand-name">
+                    TASK
+                </span>
+
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <button class="nav-item active">
+                    <span>Dashboard</span>
+                </button>
+
+                <button class="nav-item">
+                    <span>My Tasks</span>
+                </button>
+
+                <button class="nav-item">
+                    <span>Shared</span>
+                </button>
+
+                <button class="nav-item">
+                    <span>Categories</span>
+                </button>
+
+            </nav>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <span id="nome-utente"></span>
+
+            </div>
+
+            <button
+                class="theme-toggle"
+                id="theme-toggle-dash"
+                onclick="toggleTema()">
+
+                🌙
+
+            </button>
+
+            <button
+                class="btn-ghost"
+                onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
     <main class="dashboard-main">
 
-        <!-- PAGE TITLE -->
-        <div class="page-header">
-            <h1 class="page-title">Crea e gestisci le tue task qui:</h1>
-            <span class="mono-small" id="data-oggi"></span>
-        </div>
+        <header class="dashboard-header">
 
-        <!-- GRIGLIA SUPERIORE -->
-        <div class="dashboard-grid">
+            <div>
 
-            <!-- NUOVA TASK -->
-            <section class="panel">
-                <div class="panel-label">NUOVA TASK</div>
-                <div class="new-task-form">
-                    <input type="text" id="task-titolo" class="field-input field-large" placeholder="Descrivi la tua task…">
-                    <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Note aggiuntive (opzionale)"></textarea>
-                    <div class="form-row">
-                        <div class="field-group-inline">
-                            <label class="field-label">PRIORITÀ</label>
-                            <select id="task-priorita" class="field-select">
-                                <option value="bassa">Bassa</option>
-                                <option value="media" selected>Media</option>
-                                <option value="alta">Alta</option>
-                            </select>
+                <span class="dashboard-label">
+                    DASHBOARD
+                </span>
+
+                <h1 class="dashboard-title">
+
+                    Good afternoon.
+
+                </h1>
+
+                <p class="dashboard-subtitle">
+
+                    Let's get things done.
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-right">
+
+                <span
+                    id="data-oggi"
+                    class="mono-small">
+
+                </span>
+
+            </div>
+
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <span class="stat-title">
+                    Tasks
+                </span>
+
+                <span
+                    id="stats-total"
+                    class="stat-value">
+
+                    --
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span class="stat-title">
+                    Completed
+                </span>
+
+                <span
+                    id="stats-completed"
+                    class="stat-value">
+
+                    --
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span class="stat-title">
+                    Today
+                </span>
+
+                <span
+                    id="stats-today"
+                    class="stat-value">
+
+                    --
+
+                </span>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span class="stat-title">
+                    Shared
+                </span>
+
+                <span
+                    id="stats-shared"
+                    class="stat-value">
+
+                    --
+
+                </span>
+
+            </div>
+
+        </section>
+
+        <div class="dashboard-layout">
+
+            <section class="dashboard-content">
+
+                        </section>
+
+            <!-- SIDEBAR -->
+            <aside class="dashboard-sidebar">
+
+                <!-- NUOVA TASK -->
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-label">CREATE</span>
+                            <h3 class="panel-title">New Task</h3>
                         </div>
-                        <div class="field-group-inline">
-                            <label class="field-label">SCADENZA</label>
-                            <input type="date" id="task-scadenza" class="field-input field-date">
-                        </div>
-                        <div class="field-group-inline">
-                            <label class="field-label">CATEGORIA</label>
-                            <select id="task-categoria" class="field-select">
-                                <option value="">Nessuna</option>
-                            </select>
-                        </div>
+
                     </div>
-                    <p id="task-errore" class="msg-error"></p>
-                    <button class="btn-primary" style="margin-top: 12px;" onclick="creaTask()">+ Aggiungi</button>
-                </div>
-            </section>
 
-            <!-- CATEGORIE -->
-            <section class="panel">
-                <div class="panel-label">CATEGORIE</div>
-                <div class="form-row form-row-tight">
-                    <input type="text" id="cat-nome" class="field-input" placeholder="Nome categoria">
-                    <input type="color" id="cat-colore" class="field-color" value="#7C3AED">
-                    <button class="btn-outline" onclick="creaCategoria()">+ Aggiungi</button>
-                </div>
-                <div class="categorie-scroll-wrap">
-                    <div id="lista-categorie" class="categorie-list"></div>
-                </div>
-            </section>
+                    <div class="new-task-form">
+
+                        <input
+                            type="text"
+                            id="task-titolo"
+                            class="field-input field-large"
+                            placeholder="What needs to be done?">
+
+                        <textarea
+                            id="task-descrizione"
+                            class="field-input field-textarea"
+                            placeholder="Description (optional)"></textarea>
+
+                        <div class="field-group">
+
+                            <label class="field-label">
+                                Priority
+                            </label>
+
+                            <select
+                                id="task-priorita"
+                                class="field-select">
+
+                                <option value="bassa">Low</option>
+                                <option value="media" selected>Medium</option>
+                                <option value="alta">High</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="field-group">
+
+                            <label class="field-label">
+                                Due Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="task-scadenza"
+                                class="field-input">
+
+                        </div>
+
+                        <div class="field-group">
+
+                            <label class="field-label">
+                                Category
+                            </label>
+
+                            <select
+                                id="task-categoria"
+                                class="field-select">
+
+                                <option value="">
+                                    None
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <p
+                            id="task-errore"
+                            class="msg-error">
+                        </p>
+
+                        <button
+                            class="btn-primary btn-full"
+                            onclick="creaTask()">
+
+                            + Create Task
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+                <!-- CATEGORIE -->
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-label">ORGANIZE</span>
+                            <h3 class="panel-title">Categories</h3>
+                        </div>
+
+                    </div>
+
+                    <div class="field-group">
+
+                        <input
+                            type="text"
+                            id="cat-nome"
+                            class="field-input"
+                            placeholder="Category name">
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <input
+                            type="color"
+                            id="cat-colore"
+                            class="field-color"
+                            value="#7C3AED">
+
+                        <button
+                            class="btn-outline"
+                            onclick="creaCategoria()">
+
+                            Add
+
+                        </button>
+
+                    </div>
+
+                    <div class="categorie-scroll-wrap">
+
+                        <div
+                            id="lista-categorie"
+                            class="categorie-list">
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- IMPORT -->
+                <section class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-label">IMPORT</span>
+                            <h3 class="panel-title">Bulk Create</h3>
+                        </div>
+
+                    </div>
+
+                    <textarea
+                        id="import-testo"
+                        class="field-input field-textarea"
+                        style="min-height:180px"
+                        placeholder="One task per line"></textarea>
+
+                    <div class="form-row">
+
+                        <select
+                            id="import-priorita"
+                            class="field-select">
+
+                            <option value="bassa">Low</option>
+                            <option value="media" selected>Medium</option>
+                            <option value="alta">High</option>
+
+                        </select>
+
+                        <button
+                            class="btn-primary"
+                            onclick="importaLista()">
+
+                            Import
+
+                        </button>
+
+                    </div>
+
+                    <p
+                        id="import-risultato"
+                        class="mono-small">
+                    </p>
+
+                </section>
+
+            </aside>
 
         </div>
+        <!-- TASK TOOLBAR -->
+<section class="tasks-toolbar">
 
-        <!-- IMPORT LISTA -->
-        <section class="panel">
-            <div class="panel-label">CREA LA TUA LISTA</div>
-            <div class="field-group">
-                <label class="field-label">VUOI VELOCIZZARE IL TUO LAVORO? PER OGNI RIGA, VERRÀ CREATA UNA NUOVA TASK!</label>
-                <textarea id="import-testo" class="field-input field-textarea" style="min-height: 120px" placeholder="Comprare il latte&#10;Studiare PHP&#10;Fare la spesa&#10;Chiamare il cliente"></textarea>
-            </div>
-            <div class="form-row" style="margin-top: 8px;">
-                <div class="field-group-inline">
-                    <label class="field-label">PRIORITÀ</label>
-                    <select id="import-priorita" class="field-select">
-                        <option value="bassa">Bassa</option>
-                        <option value="media" selected>Media</option>
-                        <option value="alta">Alta</option>
-                    </select>
-                </div>
-                <button class="btn-primary" onclick="importaLista()">Importa task</button>
-            </div>
-            <p id="import-risultato" class="mono-small" style="margin-top: 8px;"></p>
-        </section>
+    <div class="tasks-toolbar-left">
 
-        <!-- AZIONI IN BLOCCO -->
-        <section class="bulk-bar">
-            <label class="custom-check-wrap">
-                <input type="checkbox" id="seleziona-tutto" onchange="selezionaTutto()">
-                <span class="custom-check"></span>
-                <span class="mono-small">Seleziona tutto</span>
-            </label>
-            <div class="bulk-actions">
-                <button class="btn-ghost" onclick="completaSelezionate()">✓ Completa selezionate</button>
-                <button class="btn-ghost" onclick="condividiSelezionate()">⇄ Condividi selezionate</button>
-                <button class="btn-danger" onclick="eliminaSelezionate()">✕ Elimina selezionate</button>
-            </div>
-        </section>
-<!-- FILTRI -->
-<section class="panel filters-panel">
-    <div class="panel-label">🔍 FILTRI</div>
-    <div class="form-row">
-        <div class="field-group-inline">
-            <label class="field-label">STATO</label>
-            <select id="filtro-stato" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">Tutte</option>
-                <option value="in-corso">In corso</option>
-                <option value="completate">Completate</option>
-            </select>
-        </div>
-        <div class="field-group-inline">
-            <label class="field-label">PRIORITÀ</label>
-            <select id="filtro-priorita" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">Tutte</option>
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="bassa">Bassa</option>
-            </select>
-        </div>
-        <div class="field-group-inline">
-            <label class="field-label">CATEGORIA</label>
-            <select id="filtro-categoria" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">Tutte</option>
-            </select>
-        </div>
-        <div class="field-group-inline">
-            <label class="field-label">SCADENZA</label>
-            <select id="filtro-scadenza" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">Tutte</option>
-                <option value="oggi">Oggi</option>
-                <option value="settimana">Questa settimana</option>
-                <option value="scadute">Scadute</option>
-            </select>
-        </div>
-        <div class="field-group-inline">
-            <label class="field-label">ORDINA PER</label>
-            <select id="filtro-ordine" class="field-select" onchange="applicaFiltri()">
-                <option value="data-desc">Più recenti</option>
-                <option value="data-asc">Più vecchie</option>
-                <option value="priorita-desc">Priorità alta → bassa</option>
-                <option value="priorita-asc">Priorità bassa → alta</option>
-                <option value="scadenza-asc">Scadenza vicina</option>
-            </select>
-        </div>
-        <button class="btn-ghost" onclick="resetFiltri()">✕ Reset</button>
+        <label class="custom-check-wrap">
+
+            <input
+                type="checkbox"
+                id="seleziona-tutto"
+                onchange="selezionaTutto()">
+
+            <span class="custom-check"></span>
+
+            <span class="mono-small">
+                Select all
+            </span>
+
+        </label>
+
     </div>
+
+    <div class="tasks-toolbar-right">
+
+        <button
+            class="btn-outline"
+            onclick="completaSelezionate()">
+
+            Complete
+
+        </button>
+
+        <button
+            class="btn-outline"
+            onclick="condividiSelezionate()">
+
+            Share
+
+        </button>
+
+        <button
+            class="btn-danger"
+            onclick="eliminaSelezionate()">
+
+            Delete
+
+        </button>
+
+    </div>
+
 </section>
-        <!-- LISTA TASK -->
-        <section class="tasks-section">
-            <div class="tasks-scroll-wrap">
-                <div id="lista-tasks" class="tasks-list"></div>
-            </div>
-        </section>
 
-        <!-- AZIONI IN BLOCCO CONDIVISE -->
-        <section class="bulk-bar bulk-bar-condivise">
-            <label class="custom-check-wrap">
-                <input type="checkbox" id="seleziona-tutto-condivise" onchange="selezionaTuttoCondivise()">
-                <span class="custom-check"></span>
-                <span class="mono-small">Seleziona tutto</span>
+<!-- FILTERS -->
+<section class="panel filters-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <span class="panel-label">
+                FILTERS
+            </span>
+
+            <h3 class="panel-title">
+                Browse Tasks
+            </h3>
+
+        </div>
+
+        <button
+            class="btn-ghost"
+            onclick="resetFiltri()">
+
+            Reset
+
+        </button>
+
+    </div>
+
+    <div class="filters-grid">
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Status
             </label>
-            <div class="bulk-actions">
-                <button class="btn-ghost" onclick="importaCondiviseSelezionate()">⬇ Importa selezionate</button>
-                <button class="btn-danger" onclick="eliminaCondiviseSelezionate()">✕ Elimina selezionate</button>
-            </div>
-        </section>
 
-        <!-- LISTA TASK CONDIVISE -->
-        <section class="panel condivise-panel">
-            <div class="panel-label">CONDIVISE CON ME</div>
-            <div class="condivise-scroll-wrap">
-                <div id="lista-condivise" class="tasks-list"></div>
-            </div>
+            <select
+                id="filtro-stato"
+                class="field-select"
+                onchange="applicaFiltri()">
+
+                <option value="tutte">All</option>
+                <option value="in-corso">Active</option>
+                <option value="completate">Completed</option>
+
+            </select>
+
+        </div>
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Priority
+            </label>
+
+            <select
+                id="filtro-priorita"
+                class="field-select"
+                onchange="applicaFiltri()">
+
+                <option value="tutte">All</option>
+                <option value="alta">High</option>
+                <option value="media">Medium</option>
+                <option value="bassa">Low</option>
+
+            </select>
+
+        </div>
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Category
+            </label>
+
+            <select
+                id="filtro-categoria"
+                class="field-select"
+                onchange="applicaFiltri()">
+
+                <option value="tutte">
+                    All
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Due Date
+            </label>
+
+            <select
+                id="filtro-scadenza"
+                class="field-select"
+                onchange="applicaFiltri()">
+
+                <option value="tutte">All</option>
+                <option value="oggi">Today</option>
+                <option value="settimana">This Week</option>
+                <option value="scadute">Overdue</option>
+
+            </select>
+
+        </div>
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Sort
+            </label>
+
+            <select
+                id="filtro-ordine"
+                class="field-select"
+                onchange="applicaFiltri()">
+
+                <option value="data-desc">Newest</option>
+                <option value="data-asc">Oldest</option>
+                <option value="priorita-desc">Priority ↓</option>
+                <option value="priorita-asc">Priority ↑</option>
+                <option value="scadenza-asc">Due Date</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TASK LIST -->
+<section class="panel tasks-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <span class="panel-label">
+                TASKS
+            </span>
+
+            <h3 class="panel-title">
+                My Tasks
+            </h3>
+
+        </div>
+
+    </div>
+
+    <div class="tasks-scroll-wrap">
+
+        <div
+            id="lista-tasks"
+            class="tasks-list">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SHARED -->
+<section class="panel shared-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <span class="panel-label">
+                SHARED
+            </span>
+
+            <h3 class="panel-title">
+                Shared With Me
+            </h3>
+
+        </div>
+
+    </div>
+
+    <div class="tasks-toolbar">
+
+        <label class="custom-check-wrap">
+
+            <input
+                type="checkbox"
+                id="seleziona-tutto-condivise"
+                onchange="selezionaTuttoCondivise()">
+
+            <span class="custom-check"></span>
+
+            <span class="mono-small">
+                Select all
+            </span>
+
+        </label>
+
+        <div class="tasks-toolbar-right">
+
+            <button
+                class="btn-outline"
+                onclick="importaCondiviseSelezionate()">
+
+                Import
+
+            </button>
+
+            <button
+                class="btn-danger"
+                onclick="eliminaCondiviseSelezionate()">
+
+                Delete
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="condivise-scroll-wrap">
+
+        <div
+            id="lista-condivise"
+            class="tasks-list">
+        </div>
+
+    </div>
+
+</section>
+
         </section>
 
     </main>
 
-    <script src="app.js"></script>
-    <script>
-        // ─── GESTIONE TEMA ───
-        function applicaTema(tema) {
-            document.documentElement.setAttribute('data-theme', tema);
-            localStorage.setItem('tema', tema);
-            const btn = document.getElementById('theme-toggle-dash');
-            if (btn) btn.textContent = tema === 'dark' ? '🌞' : '🌙';
-        }
+</div>
 
-        function toggleTema() {
-            const attuale = document.documentElement.getAttribute('data-theme');
-            applicaTema(attuale === 'dark' ? 'light' : 'dark');
-        }
+<script src="app.js"></script>
 
-        // Applica tema salvato all'avvio
-        (function() {
-            const salvato = localStorage.getItem('tema') || 'light';
-            applicaTema(salvato);
-        })();
-    </script>
+<script>
+
+function applicaTema(tema){
+    document.documentElement.setAttribute('data-theme',tema);
+    localStorage.setItem('tema',tema);
+
+    const btn=document.getElementById('theme-toggle-dash');
+
+    if(btn){
+        btn.textContent=tema==="dark"?"🌞":"🌙";
+    }
+}
+
+function toggleTema(){
+
+    const tema=document.documentElement.getAttribute('data-theme');
+
+    applicaTema(
+        tema==="dark"
+        ? "light"
+        : "dark"
+    );
+
+}
+
+(function(){
+
+    applicaTema(
+        localStorage.getItem("tema") || "light"
+    );
+
+})();
+
+</script>
+
 </body>
 </html>
