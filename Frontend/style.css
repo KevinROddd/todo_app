@@ -661,40 +661,26 @@ img{
    DASHBOARD GRID
 ========================================= */
 
-.dashboard-layout{
-
-    display:grid;
-
-    grid-template-columns:1fr 340px;
-
-    gap:28px;
-
-    align-items:start;
-
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 25% 75% !important;
+    gap: 24px;
+    margin-top: 24px;
+    align-items: stretch;
 }
 
-.dashboard-content{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:24px;
-
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-.dashboard-sidebar{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:24px;
-
-    position:sticky;
-
-    top:32px;
-
+.dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: sticky;
+    top: 32px;
 }
 
 /* =========================================
@@ -1459,9 +1445,11 @@ img{
 
 .categorie-scroll-wrap{
 
-    max-height:320px;
+    max-height:250px;
 
     overflow-y:auto;
+
+    overflow-x:auto;
 
     padding-right:6px;
 
@@ -1611,7 +1599,7 @@ img{
 
 .shared-panel{
 
-    margin-top:28px;
+    margin-top:24px;
 
 }
 
@@ -1800,6 +1788,11 @@ img{
 
     overflow:visible;
 
+    margin-top: 24px;
+    
+    gap:30px;
+
+
 }
 
 .filters-grid{
@@ -1808,7 +1801,7 @@ img{
 
     grid-template-columns:repeat(5,1fr);
 
-    gap:18px;
+    gap:30px;
 
 }
 
@@ -1816,7 +1809,7 @@ img{
    RESPONSIVE
 ========================================= */
 
-@media (max-width:1200px){
+@media (max-width:900px){
 
     .dashboard-layout{
 

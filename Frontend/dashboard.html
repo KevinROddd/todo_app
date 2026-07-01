@@ -11,849 +11,334 @@
 <body class="dashboard-page">
 
     <!-- MODALE MODIFICA -->
-<div id="modale-modifica" class="modale-overlay nascosto">
-
-    <div class="modale-card modern-modal">
-
-        <div class="modal-header">
-
-            <div>
-
-                <span class="panel-label">
-                    TASK
-                </span>
-
-                <h2 class="modal-title">
-                    Edit task
-                </h2>
-
-                <p class="modal-subtitle">
-                    Update the information below.
-                </p>
-
-            </div>
-
-            <button class="btn-icon" onclick="chiudiModale()">
-                ✕
-            </button>
-
-        </div>
-
-        <div class="modal-body">
-
-            <div class="field-group">
-
-                <label class="field-label">
-                    TITLE
-                </label>
-
-                <input
-                    type="text"
-                    id="mod-titolo"
-                    class="field-input field-large"
-                    placeholder="Task title">
-
-            </div>
-
-            <div class="field-group">
-
-                <label class="field-label">
-                    DESCRIPTION
-                </label>
-
-                <textarea
-                    id="mod-descrizione"
-                    class="field-input field-textarea"
-                    placeholder="Write some notes..."></textarea>
-
-            </div>
-
-            <div class="modal-grid">
-
-                <div class="field-group">
-
-                    <label class="field-label">
-                        PRIORITY
-                    </label>
-
-                    <select
-                        id="mod-priorita"
-                        class="field-select">
-
-                        <option value="bassa">Low</option>
-                        <option value="media">Medium</option>
-                        <option value="alta">High</option>
-
-                    </select>
-
+    <div id="modale-modifica" class="modale-overlay nascosto">
+        <div class="modale-card modern-modal">
+            <div class="modal-header">
+                <div>
+                    <span class="panel-label">TASK</span>
+                    <h2 class="modal-title">Edit task</h2>
+                    <p class="modal-subtitle">Update the information below.</p>
                 </div>
-
+                <button class="btn-icon" onclick="chiudiModale()">✕</button>
+            </div>
+            <div class="modal-body">
                 <div class="field-group">
-
-                    <label class="field-label">
-                        DUE DATE
-                    </label>
-
-                    <input
-                        type="date"
-                        id="mod-scadenza"
-                        class="field-input field-date">
-
+                    <label class="field-label">TITLE</label>
+                    <input type="text" id="mod-titolo" class="field-input field-large" placeholder="Task title">
                 </div>
-
+                <div class="field-group">
+                    <label class="field-label">DESCRIPTION</label>
+                    <textarea id="mod-descrizione" class="field-input field-textarea" placeholder="Write some notes..."></textarea>
+                </div>
+                <div class="modal-grid">
+                    <div class="field-group">
+                        <label class="field-label">PRIORITY</label>
+                        <select id="mod-priorita" class="field-select">
+                            <option value="bassa">Low</option>
+                            <option value="media">Medium</option>
+                            <option value="alta">High</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label">DUE DATE</label>
+                        <input type="date" id="mod-scadenza" class="field-input field-date">
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">CATEGORY</label>
+                    <select id="mod-categoria" class="field-select"></select>
+                </div>
             </div>
-
-            <div class="field-group">
-
-                <label class="field-label">
-                    CATEGORY
-                </label>
-
-                <select
-                    id="mod-categoria"
-                    class="field-select">
-                </select>
-
+            <input type="hidden" id="mod-id">
+            <input type="hidden" id="mod-share-email">
+            <span id="share-msg"></span>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="chiudiModale()">Cancel</button>
+                <button class="btn-primary" onclick="salvaModifica()">Save Changes</button>
             </div>
-
         </div>
-
-        <input
-            type="hidden"
-            id="mod-id">
-
-        <input
-            type="hidden"
-            id="mod-share-email">
-
-        <span
-            id="share-msg">
-        </span>
-
-        <div class="modal-footer">
-
-            <button
-                class="btn-outline"
-                onclick="chiudiModale()">
-
-                Cancel
-
-            </button>
-
-            <button
-                class="btn-primary"
-                onclick="salvaModifica()">
-
-                Save Changes
-
-            </button>
-
-        </div>
-
     </div>
-
-</div>
 
     <!-- APP LAYOUT -->
-<div class="app-shell">
+    <div class="app-shell">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-        <div class="sidebar-top">
-
-            <div class="sidebar-logo">
-
-                <img src="logo.png" alt="TodoList logo" class="brand-logo">
-
-                <span class="brand-name">
-                    TASK
-                </span>
-
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <img src="logo.png" alt="TodoList logo" class="brand-logo">
+                    <span class="brand-name">TASK</span>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active"><span>Dashboard</span></button>
+                    <button class="nav-item"><span>My Tasks</span></button>
+                    <button class="nav-item"><span>Shared</span></button>
+                    <button class="nav-item"><span>Categories</span></button>
+                </nav>
             </div>
-
-            <nav class="sidebar-nav">
-
-                <button class="nav-item active">
-                    <span>Dashboard</span>
-                </button>
-
-                <button class="nav-item">
-                    <span>My Tasks</span>
-                </button>
-
-                <button class="nav-item">
-                    <span>Shared</span>
-                </button>
-
-                <button class="nav-item">
-                    <span>Categories</span>
-                </button>
-
-            </nav>
-
-        </div>
-
-        <div class="sidebar-bottom">
-
-            <div class="sidebar-user">
-
-                <span id="nome-utente"></span>
-
+            <div class="sidebar-bottom">
+                <div class="sidebar-user">
+                    <span id="nome-utente"></span>
+                </div>
+                <button class="theme-toggle" id="theme-toggle-dash" onclick="toggleTema()">🌙</button>
+                <button class="btn-ghost" onclick="logout()">Logout</button>
             </div>
-
-            <button
-                class="theme-toggle"
-                id="theme-toggle-dash"
-                onclick="toggleTema()">
-
-                🌙
-
-            </button>
-
-            <button
-                class="btn-ghost"
-                onclick="logout()">
-
-                Logout
-
-            </button>
-
-        </div>
-
-    </aside>
-
-    <!-- MAIN -->
-    <main class="dashboard-main">
-
-        <header class="dashboard-header">
-
-            <div>
-
-                <span class="dashboard-label">
-                    DASHBOARD
-                </span>
-
-                <h1 class="dashboard-title">
-
-                    Good afternoon.
-
-                </h1>
-
-                <p class="dashboard-subtitle">
-
-                    Let's get things done.
-
-                </p>
-
-            </div>
-
-            <div class="dashboard-right">
-
-                <span
-                    id="data-oggi"
-                    class="mono-small">
-
-                </span>
-
-            </div>
-
-        </header>
-
-        <section class="stats-grid">
-
-            <div class="stat-card">
-
-                <span class="stat-title">
-                    Tasks
-                </span>
-
-                <span
-                    id="stats-total"
-                    class="stat-value">
-
-                    --
-
-                </span>
-
-            </div>
-
-            <div class="stat-card">
-
-                <span class="stat-title">
-                    Completed
-                </span>
-
-                <span
-                    id="stats-completed"
-                    class="stat-value">
-
-                    --
-
-                </span>
-
-            </div>
-
-            <div class="stat-card">
-
-                <span class="stat-title">
-                    Today
-                </span>
-
-                <span
-                    id="stats-today"
-                    class="stat-value">
-
-                    --
-
-                </span>
-
-            </div>
-
-            <div class="stat-card">
-
-                <span class="stat-title">
-                    Shared
-                </span>
-
-                <span
-                    id="stats-shared"
-                    class="stat-value">
-
-                    --
-
-                </span>
-
-            </div>
-
-        </section>
-
-        <div class="dashboard-layout">
-
-            <section class="dashboard-content">
-
-                        </section>
-
-            <!-- SIDEBAR -->
-            <aside class="dashboard-sidebar">
-
-                <!-- NUOVA TASK -->
-                <section class="panel">
-
-                    <div class="panel-header">
-
-                        <div>
-                            <span class="panel-label">CREATE</span>
-                            <h3 class="panel-title">New Task</h3>
-                        </div>
-
-                    </div>
-
-                    <div class="new-task-form">
-
-                        <input
-                            type="text"
-                            id="task-titolo"
-                            class="field-input field-large"
-                            placeholder="What needs to be done?">
-
-                        <textarea
-                            id="task-descrizione"
-                            class="field-input field-textarea"
-                            placeholder="Description (optional)"></textarea>
-
-                        <div class="field-group">
-
-                            <label class="field-label">
-                                Priority
-                            </label>
-
-                            <select
-                                id="task-priorita"
-                                class="field-select">
-
-                                <option value="bassa">Low</option>
-                                <option value="media" selected>Medium</option>
-                                <option value="alta">High</option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="field-group">
-
-                            <label class="field-label">
-                                Due Date
-                            </label>
-
-                            <input
-                                type="date"
-                                id="task-scadenza"
-                                class="field-input">
-
-                        </div>
-
-                        <div class="field-group">
-
-                            <label class="field-label">
-                                Category
-                            </label>
-
-                            <select
-                                id="task-categoria"
-                                class="field-select">
-
-                                <option value="">
-                                    None
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <p
-                            id="task-errore"
-                            class="msg-error">
-                        </p>
-
-                        <button
-                            class="btn-primary btn-full"
-                            onclick="creaTask()">
-
-                            + Create Task
-
-                        </button>
-
-                    </div>
-
-                </section>
-
-                <!-- CATEGORIE -->
-                <section class="panel">
-
-                    <div class="panel-header">
-
-                        <div>
-                            <span class="panel-label">ORGANIZE</span>
-                            <h3 class="panel-title">Categories</h3>
-                        </div>
-
-                    </div>
-
-                    <div class="field-group">
-
-                        <input
-                            type="text"
-                            id="cat-nome"
-                            class="field-input"
-                            placeholder="Category name">
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <input
-                            type="color"
-                            id="cat-colore"
-                            class="field-color"
-                            value="#7C3AED">
-
-                        <button
-                            class="btn-outline"
-                            onclick="creaCategoria()">
-
-                            Add
-
-                        </button>
-
-                    </div>
-
-                    <div class="categorie-scroll-wrap">
-
-                        <div
-                            id="lista-categorie"
-                            class="categorie-list">
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <!-- IMPORT -->
-                <section class="panel">
-
-                    <div class="panel-header">
-
-                        <div>
-                            <span class="panel-label">IMPORT</span>
-                            <h3 class="panel-title">Bulk Create</h3>
-                        </div>
-
-                    </div>
-
-                    <textarea
-                        id="import-testo"
-                        class="field-input field-textarea"
-                        style="min-height:180px"
-                        placeholder="One task per line"></textarea>
-
-                    <div class="form-row">
-
-                        <select
-                            id="import-priorita"
-                            class="field-select">
-
-                            <option value="bassa">Low</option>
-                            <option value="media" selected>Medium</option>
-                            <option value="alta">High</option>
-
-                        </select>
-
-                        <button
-                            class="btn-primary"
-                            onclick="importaLista()">
-
-                            Import
-
-                        </button>
-
-                    </div>
-
-                    <p
-                        id="import-risultato"
-                        class="mono-small">
-                    </p>
-
-                </section>
-
-            </aside>
-
-        </div>
-        <!-- TASK TOOLBAR -->
-<section class="tasks-toolbar">
-
+        </aside>
+
+        <!-- MAIN -->
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+                <div>
+                    <span class="dashboard-label">DASHBOARD</span>
+                    <h1 class="dashboard-title">Good afternoon.</h1>
+                    <p class="dashboard-subtitle">Let's get things done.</p>
+                </div>
+                <div class="dashboard-right">
+                    <span id="data-oggi" class="mono-small"></span>
+                </div>
+            </header>
+
+            <!-- STATS -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-title">Tasks</span>
+                    <span id="stats-total" class="stat-value">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Completed</span>
+                    <span id="stats-completed" class="stat-value">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Today</span>
+                    <span id="stats-today" class="stat-value">--</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title">Shared</span>
+                    <span id="stats-shared" class="stat-value">--</span>
+                </div>
+            </section>
+
+            <!-- TOOLBAR: full width sopra tutto -->
+            <section class="tasks-toolbar">
     <div class="tasks-toolbar-left">
-
         <label class="custom-check-wrap">
-
-            <input
-                type="checkbox"
-                id="seleziona-tutto"
-                onchange="selezionaTutto()">
-
+            <input type="checkbox" id="seleziona-tutto" onchange="selezionaTutto()">
             <span class="custom-check"></span>
-
-            <span class="mono-small">
-                Select all
-            </span>
-
+            <span class="mono-small">Select all</span>
         </label>
-
     </div>
-
     <div class="tasks-toolbar-right">
-
-        <button
-            class="btn-outline"
-            onclick="completaSelezionate()">
-
-            Complete
-
-        </button>
-
-        <button
-            class="btn-outline"
-            onclick="condividiSelezionate()">
-
-            Share
-
-        </button>
-
-        <button
-            class="btn-danger"
-            onclick="eliminaSelezionate()">
-
-            Delete
-
-        </button>
-
+        <button class="btn-outline" onclick="toggleFiltri()">⚙ Filters</button>
+        <button class="btn-outline" onclick="completaSelezionate()">Complete</button>
+        <button class="btn-outline" onclick="condividiSelezionate()">Share</button>
+        <button class="btn-danger" onclick="eliminaSelezionate()">Delete</button>
     </div>
-
 </section>
 
-<!-- FILTERS -->
-<section class="panel filters-panel">
-
+<!-- FILTERS: nascosto di default -->
+<section class="panel filters-panel nascosto" id="filtri-panel">
     <div class="panel-header">
-
         <div>
-
-            <span class="panel-label">
-                FILTERS
-            </span>
-
-            <h3 class="panel-title">
-                Browse Tasks
-            </h3>
-
+            <span class="panel-label">FILTERS</span>
+            <h3 class="panel-title">Browse Tasks</h3>
         </div>
-
-        <button
-            class="btn-ghost"
-            onclick="resetFiltri()">
-
-            Reset
-
-        </button>
-
+        <button class="btn-ghost" onclick="resetFiltri()">Reset</button>
     </div>
-
     <div class="filters-grid">
-
         <div class="field-group">
-
-            <label class="field-label">
-                Status
-            </label>
-
-            <select
-                id="filtro-stato"
-                class="field-select"
-                onchange="applicaFiltri()">
-
+            <label class="field-label">Status</label>
+            <select id="filtro-stato" class="field-select" onchange="applicaFiltri()">
                 <option value="tutte">All</option>
                 <option value="in-corso">Active</option>
                 <option value="completate">Completed</option>
-
             </select>
-
         </div>
-
         <div class="field-group">
-
-            <label class="field-label">
-                Priority
-            </label>
-
-            <select
-                id="filtro-priorita"
-                class="field-select"
-                onchange="applicaFiltri()">
-
+            <label class="field-label">Priority</label>
+            <select id="filtro-priorita" class="field-select" onchange="applicaFiltri()">
                 <option value="tutte">All</option>
                 <option value="alta">High</option>
                 <option value="media">Medium</option>
                 <option value="bassa">Low</option>
-
             </select>
-
         </div>
-
         <div class="field-group">
-
-            <label class="field-label">
-                Category
-            </label>
-
-            <select
-                id="filtro-categoria"
-                class="field-select"
-                onchange="applicaFiltri()">
-
-                <option value="tutte">
-                    All
-                </option>
-
+            <label class="field-label">Category</label>
+            <select id="filtro-categoria" class="field-select" onchange="applicaFiltri()">
+                <option value="tutte">All</option>
             </select>
-
         </div>
-
         <div class="field-group">
-
-            <label class="field-label">
-                Due Date
-            </label>
-
-            <select
-                id="filtro-scadenza"
-                class="field-select"
-                onchange="applicaFiltri()">
-
+            <label class="field-label">Due Date</label>
+            <select id="filtro-scadenza" class="field-select" onchange="applicaFiltri()">
                 <option value="tutte">All</option>
                 <option value="oggi">Today</option>
                 <option value="settimana">This Week</option>
                 <option value="scadute">Overdue</option>
-
             </select>
-
         </div>
-
         <div class="field-group">
-
-            <label class="field-label">
-                Sort
-            </label>
-
-            <select
-                id="filtro-ordine"
-                class="field-select"
-                onchange="applicaFiltri()">
-
+            <label class="field-label">Sort</label>
+            <select id="filtro-ordine" class="field-select" onchange="applicaFiltri()">
                 <option value="data-desc">Newest</option>
                 <option value="data-asc">Oldest</option>
                 <option value="priorita-desc">Priority ↓</option>
                 <option value="priorita-asc">Priority ↑</option>
                 <option value="scadenza-asc">Due Date</option>
-
             </select>
-
         </div>
-
     </div>
-
 </section>
 
-<!-- TASK LIST -->
-<section class="panel tasks-panel">
+            <!-- LAYOUT AFFIANCATO -->
+            <div class="dashboard-layout">
 
-    <div class="panel-header">
+                <!-- SINISTRA: creazione task, categorie, import -->
+                <aside class="dashboard-sidebar">
 
-        <div>
+                    <!-- NEW TASK -->
+                    <section class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="panel-label">CREATE</span>
+                                <h3 class="panel-title">New Task</h3>
+                            </div>
+                        </div>
+                        <div class="new-task-form">
+                            <input type="text" id="task-titolo" class="field-input field-large" placeholder="What needs to be done?">
+                            <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Description (optional)"></textarea>
+                            <div class="field-group">
+                                <label class="field-label">Priority</label>
+                                <select id="task-priorita" class="field-select">
+                                    <option value="bassa">Low</option>
+                                    <option value="media" selected>Medium</option>
+                                    <option value="alta">High</option>
+                                </select>
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Due Date</label>
+                                <input type="date" id="task-scadenza" class="field-input">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">Category</label>
+                                <select id="task-categoria" class="field-select">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                            <p id="task-errore" class="msg-error"></p>
+                            <button class="btn-primary btn-full" onclick="creaTask()">+ Create Task</button>
+                        </div>
+                    </section>
 
-            <span class="panel-label">
-                TASKS
-            </span>
+                    <!-- CATEGORIES -->
+                    <section class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="panel-label">ORGANIZE</span>
+                                <h3 class="panel-title">Categories</h3>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <input type="text" id="cat-nome" class="field-input" placeholder="Category name">
+                        </div>
+                        <div class="form-row" style="margin-top: 12px;">
+                            <input type="color" id="cat-colore" class="field-color" value="#7C3AED">
+                            <button class="btn-outline" onclick="creaCategoria()">Add</button>
+                        </div>
+                        <div class="categorie-scroll-wrap" style="margin-top: 16px;">
+                            <div id="lista-categorie" class="categorie-list"></div>
+                        </div>
+                    </section>
 
-            <h3 class="panel-title">
-                My Tasks
-            </h3>
+                    <!-- IMPORT -->
+                    <section class="panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="panel-label">IMPORT</span>
+                                <h3 class="panel-title">Bulk Create</h3>
+                            </div>
+                        </div>
+                        <textarea id="import-testo" class="field-input field-textarea" style="min-height:180px" placeholder="One task per line"></textarea>
+                        <div class="form-row" style="margin-top: 12px;">
+                            <select id="import-priorita" class="field-select">
+                                <option value="bassa">Low</option>
+                                <option value="media" selected>Medium</option>
+                                <option value="alta">High</option>
+                            </select>
+                            <button class="btn-primary" onclick="importaLista()">Import</button>
+                        </div>
+                        <p id="import-risultato" class="mono-small" style="margin-top: 8px;"></p>
+                    </section>
 
-        </div>
+                </aside>
+
+                <!-- DESTRA: lista task e condivise -->
+                <section class="dashboard-content">
+
+                    <!-- TASK LIST -->
+                    <section class="panel tasks-panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="panel-label">TASKS</span>
+                                <h3 class="panel-title">My Tasks</h3>
+                            </div>
+                        </div>
+                        <div class="tasks-scroll-wrap">
+                            <div id="lista-tasks" class="tasks-list"></div>
+                        </div>
+                    </section>
+
+                    <!-- SHARED -->
+                    <section class="panel shared-panel">
+                        <div class="panel-header">
+                            <div>
+                                <span class="panel-label">SHARED</span>
+                                <h3 class="panel-title">Shared With Me</h3>
+                            </div>
+                        </div>
+                        <div class="tasks-toolbar">
+                            <label class="custom-check-wrap">
+                                <input type="checkbox" id="seleziona-tutto-condivise" onchange="selezionaTuttoCondivise()">
+                                <span class="custom-check"></span>
+                                <span class="mono-small">Select all</span>
+                            </label>
+                            <div class="tasks-toolbar-right">
+                                <button class="btn-outline" onclick="importaCondiviseSelezionate()">Import</button>
+                                <button class="btn-danger" onclick="eliminaCondiviseSelezionate()">Delete</button>
+                            </div>
+                        </div>
+                        <div class="condivise-scroll-wrap">
+                            <div id="lista-condivise" class="tasks-list"></div>
+                        </div>
+                    </section>
+
+                </section>
+
+            </div>
+
+        </main>
 
     </div>
 
-    <div class="tasks-scroll-wrap">
+    <script src="app.js"></script>
+    <script>
+        function applicaTema(tema) {
+            document.documentElement.setAttribute('data-theme', tema);
+            localStorage.setItem('tema', tema);
+            const btn = document.getElementById('theme-toggle-dash');
+            if (btn) btn.textContent = tema === 'dark' ? '🌞' : '🌙';
+        }
 
-        <div
-            id="lista-tasks"
-            class="tasks-list">
-        </div>
+        function toggleTema() {
+            const tema = document.documentElement.getAttribute('data-theme');
+            applicaTema(tema === 'dark' ? 'light' : 'dark');
+        }
 
-    </div>
-
-</section>
-
-<!-- SHARED -->
-<section class="panel shared-panel">
-
-    <div class="panel-header">
-
-        <div>
-
-            <span class="panel-label">
-                SHARED
-            </span>
-
-            <h3 class="panel-title">
-                Shared With Me
-            </h3>
-
-        </div>
-
-    </div>
-
-    <div class="tasks-toolbar">
-
-        <label class="custom-check-wrap">
-
-            <input
-                type="checkbox"
-                id="seleziona-tutto-condivise"
-                onchange="selezionaTuttoCondivise()">
-
-            <span class="custom-check"></span>
-
-            <span class="mono-small">
-                Select all
-            </span>
-
-        </label>
-
-        <div class="tasks-toolbar-right">
-
-            <button
-                class="btn-outline"
-                onclick="importaCondiviseSelezionate()">
-
-                Import
-
-            </button>
-
-            <button
-                class="btn-danger"
-                onclick="eliminaCondiviseSelezionate()">
-
-                Delete
-
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="condivise-scroll-wrap">
-
-        <div
-            id="lista-condivise"
-            class="tasks-list">
-        </div>
-
-    </div>
-
-</section>
-
-        </section>
-
-    </main>
-
-</div>
-
-<script src="app.js"></script>
-
-<script>
-
-function applicaTema(tema){
-    document.documentElement.setAttribute('data-theme',tema);
-    localStorage.setItem('tema',tema);
-
-    const btn=document.getElementById('theme-toggle-dash');
-
-    if(btn){
-        btn.textContent=tema==="dark"?"🌞":"🌙";
-    }
-}
-
-function toggleTema(){
-
-    const tema=document.documentElement.getAttribute('data-theme');
-
-    applicaTema(
-        tema==="dark"
-        ? "light"
-        : "dark"
-    );
-
-}
-
-(function(){
-
-    applicaTema(
-        localStorage.getItem("tema") || "light"
-    );
-
-})();
-
-</script>
+        (function() {
+            applicaTema(localStorage.getItem('tema') || 'light');
+        })();
+    </script>
 
 </body>
 </html>

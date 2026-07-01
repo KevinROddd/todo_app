@@ -345,6 +345,12 @@ async function condividiSelezionate() {
     caricaTasks();
 }
 
+// ── FILTRI ────────────────────────────────────────
+
+function toggleFiltri() {
+    document.getElementById('filtri-panel').classList.toggle('nascosto');
+}
+
 // ── IMPORT LISTA ──────────────────────────────────
 
 async function importaLista() {
