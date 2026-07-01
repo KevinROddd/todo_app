@@ -173,7 +173,7 @@ async function caricaTasks() {
             </div>
             <div class="task-actions">
                 <button class="btn-icon" onclick='apriModale(${JSON.stringify(task)})' title="Modifica">✎</button>
-                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi">📤</button>
+                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi">🔗</button>
                 <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
             </div>
         `;
@@ -633,7 +633,7 @@ function renderTasks(tasks) {
     lista.innerHTML = '';
 
     if (tasks.length === 0) {
-        lista.innerHTML = '<div class="empty-state">NESSUNA TASK TROVATA — Prova a modificare i filtri</div>';
+        lista.innerHTML = '<div class="empty-state">Nessuna task trovata — Prova a modificare i filtri</div>';
         return;
     }
 
@@ -673,7 +673,7 @@ function renderTasks(tasks) {
             </div>
             <div class="task-actions">
                 <button class="btn-icon" onclick='apriModale(${JSON.stringify(task)})' title="Modifica">✎</button>
-                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi">📤</button>
+                <button class="btn-icon" onclick="condividiSingola(${task.id})" title="Condividi"><svg xmlns="http://w3.org" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"> <path d="M3 20A9 9 0 0 1 12 11h7" /> <polyline points="15 7 19 11 15 15" /> </svg> </button>
                 <button class="btn-icon btn-icon-danger" onclick="eliminaTask(${task.id})" title="Elimina">✕</button>
             </div>
         `;

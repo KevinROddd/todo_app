@@ -666,7 +666,7 @@ img{
     grid-template-columns: 25% 75% !important;
     gap: 24px;
     margin-top: 24px;
-    align-items: stretch;
+    align-items: start;
 }
 
 .dashboard-content {
@@ -681,6 +681,13 @@ img{
     gap: 24px;
     position: sticky;
     top: 32px;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.dashboard-sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 /* =========================================
