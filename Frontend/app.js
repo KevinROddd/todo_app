@@ -63,7 +63,7 @@ function salutoOrario() {
     if (ora >= 6 && ora < 12) return 'Buongiorno';
     if (ora >= 12 && ora < 18) return 'Buon pomeriggio';
     if (ora >= 18 && ora < 22) return 'Buonasera';
-    return 'Che ci fai sveglio a quest\'ora?';
+    return 'Che ci fai sveglio a quest\'ora';
 }
 
 async function login() {
