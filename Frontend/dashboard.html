@@ -16,27 +16,27 @@
             <div class="modal-header">
                 <div>
                     <span class="panel-label">TASK</span>
-                    <h2 class="modal-title">Edit task</h2>
-                    <p class="modal-subtitle">Update the information below.</p>
+                    <h2 class="modal-title">Modifica Task</h2>
+                    <p class="modal-subtitle">Aggiorna le informazioni qui sotto.</p>
                 </div>
                 <button class="btn-icon" onclick="chiudiModale()">✕</button>
             </div>
             <div class="modal-body">
                 <div class="field-group">
-                    <label class="field-label">TITLE</label>
-                    <input type="text" id="mod-titolo" class="field-input field-large" placeholder="Task title">
+                    <label class="field-label">TITOLO</label>
+                    <input type="text" id="mod-titolo" class="field-input field-large" placeholder="Titolo della task">
                 </div>
                 <div class="field-group">
-                    <label class="field-label">DESCRIPTION</label>
-                    <textarea id="mod-descrizione" class="field-input field-textarea" placeholder="Write some notes..."></textarea>
+                    <label class="field-label">DESCRIZIONE</label>
+                    <textarea id="mod-descrizione" class="field-input field-textarea" placeholder="Scrivi delle note..."></textarea>
                 </div>
                 <div class="modal-grid">
                     <div class="field-group">
-                        <label class="field-label">PRIORITY</label>
+                        <label class="field-label">PRIORITÀ</label>
                         <select id="mod-priorita" class="field-select">
-                            <option value="bassa">Low</option>
-                            <option value="media">Medium</option>
-                            <option value="alta">High</option>
+                            <option value="bassa">Bassa</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
                         </select>
                     </div>
                     <div class="field-group">
@@ -53,8 +53,8 @@
             <input type="hidden" id="mod-share-email">
             <span id="share-msg"></span>
             <div class="modal-footer">
-                <button class="btn-outline" onclick="chiudiModale()">Cancel</button>
-                <button class="btn-primary" onclick="salvaModifica()">Save Changes</button>
+                <button class="btn-outline" onclick="chiudiModale()">Annulla</button>
+                <button class="btn-primary" onclick="salvaModifica()">Salva Modifiche</button>
             </div>
         </div>
     </div>
@@ -71,9 +71,9 @@
                 </div>
                 <nav class="sidebar-nav">
                     <button class="nav-item active"><span>Dashboard</span></button>
-                    <button class="nav-item"><span>My Tasks</span></button>
-                    <button class="nav-item"><span>Shared</span></button>
-                    <button class="nav-item"><span>Categories</span></button>
+                    <button class="nav-item"><span>Le mie task</span></button>
+                    <button class="nav-item"><span>Condivise</span></button>
+                    <button class="nav-item"><span>Categorie</span></button>
                 </nav>
             </div>
             <div class="sidebar-bottom">
@@ -81,7 +81,7 @@
                     <span id="nome-utente"></span>
                 </div>
                 <button class="theme-toggle" id="theme-toggle-dash" onclick="toggleTema()">🌙</button>
-                <button class="btn-ghost" onclick="logout()">Logout</button>
+                <button class="btn-ghost" onclick="logout()">Esci</button>
             </div>
         </aside>
 
@@ -91,8 +91,8 @@
             <header class="dashboard-header">
                 <div>
                     <span class="dashboard-label">DASHBOARD</span>
-                    <h1 class="dashboard-title">Good afternoon.</h1>
-                    <p class="dashboard-subtitle">Let's get things done.</p>
+                    <h1 class="dashboard-title"> </h1>
+                    <p class="dashboard-subtitle">Organizziamo assieme la giornata.</p>
                 </div>
                 <div class="dashboard-right">
                     <span id="data-oggi" class="mono-small"></span>
@@ -102,19 +102,19 @@
             <!-- STATS -->
             <section class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-title">Tasks</span>
+                    <span class="stat-title">Le mie task</span>
                     <span id="stats-total" class="stat-value">--</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-title">Completed</span>
+                    <span class="stat-title">Completate</span>
                     <span id="stats-completed" class="stat-value">--</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-title">Today</span>
+                    <span class="stat-title">Oggi</span>
                     <span id="stats-today" class="stat-value">--</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-title">Shared</span>
+                    <span class="stat-title">Condivise</span>
                     <span id="stats-shared" class="stat-value">--</span>
                 </div>
             </section>
@@ -125,14 +125,14 @@
         <label class="custom-check-wrap">
             <input type="checkbox" id="seleziona-tutto" onchange="selezionaTutto()">
             <span class="custom-check"></span>
-            <span class="mono-small">Select all</span>
+            <span class="mono-small">Seleziona tutto</span>
         </label>
     </div>
     <div class="tasks-toolbar-right">
-        <button class="btn-outline" onclick="toggleFiltri()">⚙ Filters</button>
-        <button class="btn-outline" onclick="completaSelezionate()">Complete</button>
-        <button class="btn-outline" onclick="condividiSelezionate()">Share</button>
-        <button class="btn-danger" onclick="eliminaSelezionate()">Delete</button>
+        <button class="btn-outline" onclick="toggleFiltri()">⚙ Filtri</button>
+        <button class="btn-outline" onclick="completaSelezionate()">Completa</button>
+        <button class="btn-outline" onclick="condividiSelezionate()">Condividi</button>
+        <button class="btn-danger" onclick="eliminaSelezionate()">Elimina</button>
     </div>
 </section>
 
@@ -140,52 +140,52 @@
 <section class="panel filters-panel nascosto" id="filtri-panel">
     <div class="panel-header">
         <div>
-            <span class="panel-label">FILTERS</span>
-            <h3 class="panel-title">Browse Tasks</h3>
+            <span class="panel-label">FILTRI</span>
+            <h3 class="panel-title">Seleziona le tue preferenze per le Task</h3>
         </div>
-        <button class="btn-ghost" onclick="resetFiltri()">Reset</button>
+        <button class="btn-ghost" onclick="resetFiltri()">Ripristina</button>
     </div>
     <div class="filters-grid">
         <div class="field-group">
-            <label class="field-label">Status</label>
+            <label class="field-label">Stato</label>
             <select id="filtro-stato" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">All</option>
-                <option value="in-corso">Active</option>
-                <option value="completate">Completed</option>
+                <option value="tutte">Tutte</option>
+                <option value="in-corso">Attive</option>
+                <option value="completate">Completate</option>
             </select>
         </div>
         <div class="field-group">
-            <label class="field-label">Priority</label>
+            <label class="field-label">Priorità</label>
             <select id="filtro-priorita" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">All</option>
-                <option value="alta">High</option>
-                <option value="media">Medium</option>
-                <option value="bassa">Low</option>
+                <option value="tutte">Tutte</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="bassa">Bassa</option>
             </select>
         </div>
         <div class="field-group">
-            <label class="field-label">Category</label>
+            <label class="field-label">Categorie</label>
             <select id="filtro-categoria" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">All</option>
+                <option value="tutte">Tutte</option>
             </select>
         </div>
         <div class="field-group">
-            <label class="field-label">Due Date</label>
+            <label class="field-label">Scadenza</label>
             <select id="filtro-scadenza" class="field-select" onchange="applicaFiltri()">
-                <option value="tutte">All</option>
-                <option value="oggi">Today</option>
-                <option value="settimana">This Week</option>
-                <option value="scadute">Overdue</option>
+                <option value="tutte">Tutte</option>
+                <option value="oggi">Oggi</option>
+                <option value="settimana">Questa settimana</option>
+                <option value="scadute">Scadute</option>
             </select>
         </div>
         <div class="field-group">
-            <label class="field-label">Sort</label>
+            <label class="field-label">Ordina</label>
             <select id="filtro-ordine" class="field-select" onchange="applicaFiltri()">
-                <option value="data-desc">Newest</option>
-                <option value="data-asc">Oldest</option>
-                <option value="priorita-desc">Priority ↓</option>
-                <option value="priorita-asc">Priority ↑</option>
-                <option value="scadenza-asc">Due Date</option>
+                <option value="data-desc">Più recente</option>
+                <option value="data-asc">Meno recente</option>
+                <option value="priorita-desc">Priorità ↓</option>
+                <option value="priorita-asc">Priorità ↑</option>
+                <option value="scadenza-asc">Per scadenza</option>
             </select>
         </div>
     </div>
@@ -201,33 +201,33 @@
                     <section class="panel">
                         <div class="panel-header">
                             <div>
-                                <span class="panel-label">CREATE</span>
-                                <h3 class="panel-title">New Task</h3>
+                                <span class="panel-label">CREA TASK</span>
+                                <h3 class="panel-title">Nuova Task</h3>
                             </div>
                         </div>
                         <div class="new-task-form">
-                            <input type="text" id="task-titolo" class="field-input field-large" placeholder="What needs to be done?">
-                            <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Description (optional)"></textarea>
+                            <input type="text" id="task-titolo" class="field-input field-large" placeholder="Cosa bisogna fare?">
+                            <textarea id="task-descrizione" class="field-input field-textarea" placeholder="Descrizione (opzionale)"></textarea>
                             <div class="field-group">
-                                <label class="field-label">Priority</label>
+                                <label class="field-label">Priorità</label>
                                 <select id="task-priorita" class="field-select">
-                                    <option value="bassa">Low</option>
-                                    <option value="media" selected>Medium</option>
-                                    <option value="alta">High</option>
+                                    <option value="bassa">Bassa</option>
+                                    <option value="media" selected>Media</option>
+                                    <option value="alta">Alta</option>
                                 </select>
                             </div>
                             <div class="field-group">
-                                <label class="field-label">Due Date</label>
+                                <label class="field-label">Scadenza</label>
                                 <input type="date" id="task-scadenza" class="field-input">
                             </div>
                             <div class="field-group">
-                                <label class="field-label">Category</label>
+                                <label class="field-label">Categoria</label>
                                 <select id="task-categoria" class="field-select">
-                                    <option value="">None</option>
+                                    <option value="">Nessuna</option>
                                 </select>
                             </div>
                             <p id="task-errore" class="msg-error"></p>
-                            <button class="btn-primary btn-full" onclick="creaTask()">+ Create Task</button>
+                            <button class="btn-primary btn-full" onclick="creaTask()">+ Crea Task</button>
                         </div>
                     </section>
 
@@ -235,16 +235,16 @@
                     <section class="panel">
                         <div class="panel-header">
                             <div>
-                                <span class="panel-label">ORGANIZE</span>
-                                <h3 class="panel-title">Categories</h3>
+                                <span class="panel-label">ORGANIZZA</span>
+                                <h3 class="panel-title">Categorie</h3>
                             </div>
                         </div>
                         <div class="field-group">
-                            <input type="text" id="cat-nome" class="field-input" placeholder="Category name">
+                            <input type="text" id="cat-nome" class="field-input" placeholder="Nome categoria">
                         </div>
                         <div class="form-row" style="margin-top: 12px;">
                             <input type="color" id="cat-colore" class="field-color" value="#7C3AED">
-                            <button class="btn-outline" onclick="creaCategoria()">Add</button>
+                            <button class="btn-outline" onclick="creaCategoria()">Aggiungi</button>
                         </div>
                         <div class="categorie-scroll-wrap" style="margin-top: 16px;">
                             <div id="lista-categorie" class="categorie-list"></div>
@@ -255,18 +255,18 @@
                     <section class="panel">
                         <div class="panel-header">
                             <div>
-                                <span class="panel-label">IMPORT</span>
-                                <h3 class="panel-title">Bulk Create</h3>
+                                <span class="panel-label">LISTA VELOCIZZATA</span>
+                                <h3 class="panel-title">LISTA RAPIDA</h3>
                             </div>
                         </div>
-                        <textarea id="import-testo" class="field-input field-textarea" style="min-height:180px" placeholder="One task per line"></textarea>
+                        <textarea id="import-testo" class="field-input field-textarea" style="min-height:180px" placeholder="VUOI VELOCIZZARE IL TUO LAVORO? PER OGNI RIGA, VERRÀ CREATA UNA NUOVA TASK!"></textarea>
                         <div class="form-row" style="margin-top: 12px;">
                             <select id="import-priorita" class="field-select">
-                                <option value="bassa">Low</option>
-                                <option value="media" selected>Medium</option>
-                                <option value="alta">High</option>
+                                <option value="bassa">Bassa</option>
+                                <option value="media" selected>Media</option>
+                                <option value="alta">Alta</option>
                             </select>
-                            <button class="btn-primary" onclick="importaLista()">Import</button>
+                            <button class="btn-primary" onclick="importaLista()">Importa</button>
                         </div>
                         <p id="import-risultato" class="mono-small" style="margin-top: 8px;"></p>
                     </section>
@@ -280,8 +280,8 @@
                     <section class="panel tasks-panel">
                         <div class="panel-header">
                             <div>
-                                <span class="panel-label">TASKS</span>
-                                <h3 class="panel-title">My Tasks</h3>
+                                <span class="panel-label">LE MIE TASK</span>
+                                <h3 class="panel-title">Lista task</h3>
                             </div>
                         </div>
                         <div class="tasks-scroll-wrap">
@@ -293,19 +293,19 @@
                     <section class="panel shared-panel">
                         <div class="panel-header">
                             <div>
-                                <span class="panel-label">SHARED</span>
-                                <h3 class="panel-title">Shared With Me</h3>
+                                <span class="panel-label">CONDIVISIONI</span>
+                                <h3 class="panel-title">Task condivise con me</h3>
                             </div>
                         </div>
                         <div class="tasks-toolbar">
                             <label class="custom-check-wrap">
                                 <input type="checkbox" id="seleziona-tutto-condivise" onchange="selezionaTuttoCondivise()">
                                 <span class="custom-check"></span>
-                                <span class="mono-small">Select all</span>
+                                <span class="mono-small">Seleziona tutto</span>
                             </label>
                             <div class="tasks-toolbar-right">
-                                <button class="btn-outline" onclick="importaCondiviseSelezionate()">Import</button>
-                                <button class="btn-danger" onclick="eliminaCondiviseSelezionate()">Delete</button>
+                                <button class="btn-outline" onclick="importaCondiviseSelezionate()">Importa</button>
+                                <button class="btn-danger" onclick="eliminaCondiviseSelezionate()">Elimina</button>
                             </div>
                         </div>
                         <div class="condivise-scroll-wrap">

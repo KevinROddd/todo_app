@@ -58,6 +58,14 @@ function mostraRegistrazione() {
     document.getElementById('form-login').classList.add('nascosto');
 }
 
+function salutoOrario() {
+    const ora = new Date().getHours();
+    if (ora >= 6 && ora < 12) return 'Buongiorno';
+    if (ora >= 12 && ora < 18) return 'Buon pomeriggio';
+    if (ora >= 18 && ora < 22) return 'Buonasera';
+    return 'Che ci fai sveglio a quest\'ora?';
+}
+
 async function login() {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
@@ -107,6 +115,7 @@ window.addEventListener('load', () => {
         if (!utente) { window.location.href = 'index.html'; return; }
         document.getElementById('nome-utente').textContent = utente.nome.toUpperCase();
         const oggi = new Date().toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        document.querySelector('.dashboard-title').textContent = salutoOrario() + ', ' + utente.nome + '!';
         document.getElementById('data-oggi').textContent = oggi.toUpperCase();
         caricaTasks();
         caricaCategorie();
